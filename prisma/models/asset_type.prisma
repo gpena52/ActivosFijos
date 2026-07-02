@@ -1,0 +1,19 @@
+model AssetType {
+  id          Int     @id @default(autoincrement())
+
+  description String
+
+  purchaseAccountId Int
+  purchaseAccount   AccountingAccount @relation("PurchaseAccount", fields: [purchaseAccountId], references: [id])
+
+  depreciationAccountId Int
+  depreciationAccount   AccountingAccount @relation("DepreciationAccount", fields: [depreciationAccountId], references: [id])
+
+  status Boolean @default(true)
+
+  assets         FixedAsset[]
+  journalEntries JournalEntry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,11 @@
+model Department {
+  id          Int      @id @default(autoincrement())
+  description String
+  status      Boolean  @default(true)
+
+  employees   Employee[]
+  assets      FixedAsset[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

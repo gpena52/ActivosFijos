@@ -1,0 +1,17 @@
+enum PersonType {
+  INDIVIDUAL
+  COMPANY
+}
+
+enum MovementType {
+  DB
+  CR
+}
+
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}

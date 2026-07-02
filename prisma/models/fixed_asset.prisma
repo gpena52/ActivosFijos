@@ -1,0 +1,22 @@
+model FixedAsset {
+  id Int @id @default(autoincrement())
+
+  description String
+
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  assetTypeId Int
+  assetType   AssetType @relation(fields: [assetTypeId], references: [id])
+
+  registrationDate DateTime
+
+  purchaseValue Decimal @db.Decimal(18,2)
+
+  accumulatedDepreciation Decimal @default(0) @db.Decimal(18,2)
+
+  depreciationRecords DepreciationRecord[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

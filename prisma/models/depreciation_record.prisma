@@ -1,0 +1,24 @@
+model DepreciationRecord {
+  id Int @id @default(autoincrement())
+
+  processYear  Int
+  processMonth Int
+
+  assetId Int
+  asset   FixedAsset @relation(fields: [assetId], references: [id])
+
+  processDate DateTime
+
+  depreciatedAmount Decimal @db.Decimal(18,2)
+
+  accumulatedDepreciation Decimal @db.Decimal(18,2)
+
+  purchaseAccountId Int
+  purchaseAccount   AccountingAccount @relation("PurchaseDepreciation",fields: [purchaseAccountId],references: [id])
+
+  depreciationAccountId Int
+  depreciationAccount   AccountingAccount @relation("DepreciationDepreciation",fields: [depreciationAccountId],references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

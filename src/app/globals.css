@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #f5f7fb;
+  color: #172033;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #e6eaf0;
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 72px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e6eaf0;
+}
+
+.brand .ant-typography {
+  display: block;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  min-height: 72px;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e6eaf0;
+}
+
+.topbar h3.ant-typography {
+  margin: 0 0 2px;
+}
+
+.content {
+  padding: 24px;
+}
+
+.main-grid {
+  margin-top: 16px;
+}
+
+.ant-card {
+  border-color: #e6eaf0;
+  box-shadow: 0 8px 24px rgba(31, 45, 61, 0.04);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}

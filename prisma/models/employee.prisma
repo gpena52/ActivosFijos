@@ -1,0 +1,16 @@
+model Employee {
+  id           Int        @id @default(autoincrement())
+  name         String
+  nationalId   String     @unique
+
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  personType   PersonType
+  hireDate     DateTime
+
+  status       Boolean    @default(true)
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}

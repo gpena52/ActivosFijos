@@ -1,0 +1,20 @@
+model AccountingAccount {
+  id            Int         @id @default(autoincrement())
+
+  accountNumber String      @unique
+  accountName   String
+  accountType   AccountType
+
+  status        Boolean     @default(true)
+
+  purchaseAssetTypes      AssetType[] @relation("PurchaseAccount")
+  depreciationAssetTypes  AssetType[] @relation("DepreciationAccount")
+
+  purchaseDepreciations      DepreciationRecord[] @relation("PurchaseDepreciation")
+  depreciationDepreciations  DepreciationRecord[] @relation("DepreciationDepreciation")
+
+  journalEntries JournalEntry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,22 @@
+model JournalEntry {
+  id Int @id @default(autoincrement())
+
+  description String
+
+  assetTypeId Int
+  assetType   AssetType @relation(fields: [assetTypeId], references: [id])
+
+  accountId Int
+  account   AccountingAccount @relation(fields: [accountId], references: [id])
+
+  movementType MovementType
+
+  entryDate DateTime
+
+  amount Decimal @db.Decimal(18,2)
+
+  status Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
