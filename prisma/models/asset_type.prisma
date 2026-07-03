@@ -1,7 +1,7 @@
 model AssetType {
   id          Int     @id @default(autoincrement())
 
-  description String
+  description String?
 
   purchaseAccountId Int
   purchaseAccount   AccountingAccount @relation("PurchaseAccount", fields: [purchaseAccountId], references: [id])
@@ -15,5 +15,5 @@ model AssetType {
   journalEntries JournalEntry[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
 }

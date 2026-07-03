@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "./globals.css";
 import { Montserrat, Poppins } from "next/font/google";
+import Providers from "./providers";
+import AppLayout from "@/components/layout/AppLayout";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -22,7 +24,13 @@ export default function RootLayout({
   return (
     <html lang="es" className={poppins.className}>
       <body>
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <Providers>
+            <AppLayout>
+              {children}
+            </AppLayout>
+          </Providers>
+        </AntdRegistry>
       </body>
     </html>
   );

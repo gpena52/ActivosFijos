@@ -12,5 +12,5 @@ model Employee {
   status       Boolean    @default(true)
 
   createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  updatedAt    DateTime?   @updatedAt
 }

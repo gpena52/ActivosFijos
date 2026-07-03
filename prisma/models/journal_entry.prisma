@@ -1,7 +1,7 @@
 model JournalEntry {
   id Int @id @default(autoincrement())
 
-  description String
+  description String?
 
   assetTypeId Int
   assetType   AssetType @relation(fields: [assetTypeId], references: [id])
@@ -18,5 +18,5 @@ model JournalEntry {
   status Boolean @default(true)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
 }

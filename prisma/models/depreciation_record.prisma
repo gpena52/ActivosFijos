@@ -20,5 +20,5 @@ model DepreciationRecord {
   depreciationAccount   AccountingAccount @relation("DepreciationDepreciation",fields: [depreciationAccountId],references: [id])
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
 }
