@@ -1,7 +1,7 @@
 import type { AccountType } from "@/generated/prisma";
 
 export interface AccountingAccountDto {
-    id: number;
+    id?: number;
     accountNumber: string;
     accountName: string;
     accountType: AccountType;

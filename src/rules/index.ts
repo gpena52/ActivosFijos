@@ -1,0 +1,12 @@
+// validation.ts
+export const rules = {
+    required: (field: string) => ({
+        required: true,
+        message: `${field} es requerido`,
+    }),
+
+    email: {
+        type: "email" as const,
+        message: "Ingrese un email valido",
+    },
+};

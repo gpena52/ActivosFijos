@@ -1,7 +1,7 @@
 import type { PersonType } from "@/generated/prisma";
 
 export interface EmployeeDto {
-    id: number;
+    id?: number;
     name: string;
     nationalId: string;
     departmentId: number;

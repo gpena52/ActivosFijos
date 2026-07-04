@@ -1,9 +1,10 @@
+import { apiHandler } from "@/errors/apiHandler";
 import { DepartmentService } from "@/services/backend/department.service";
 
 const service = new DepartmentService();
 
-export async function GET() {
-    const departments = await service.getDepartments();
+export const GET = apiHandler(async () => {
+    const departments = await service.getAll();
 
     return Response.json(departments);
-}
+})

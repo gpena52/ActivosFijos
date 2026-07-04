@@ -1,7 +1,7 @@
 import type { MovementType, Prisma } from "@/generated/prisma";
 
 export interface JournalEntryDto {
-    id: number;
+    id?: number;
     description: string | null;
     assetTypeId: number;
     accountId: number;

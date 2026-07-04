@@ -1,7 +1,7 @@
 import type { Prisma } from "@/generated/prisma";
 
 export interface FixedAssetDto {
-    id: number;
+    id?: number;
     description: string | null;
     departmentId: number;
     assetTypeId: number;

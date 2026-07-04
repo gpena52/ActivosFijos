@@ -1,5 +1,5 @@
 export interface AssetTypeDto {
-    id: number;
+    id?: number;
     description: string | null;
     purchaseAccountId: number;
     depreciationAccountId: number;

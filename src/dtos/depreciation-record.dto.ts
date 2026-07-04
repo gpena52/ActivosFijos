@@ -1,7 +1,7 @@
 import type { Prisma } from "@/generated/prisma";
 
 export interface DepreciationRecordDto {
-    id: number;
+    id?: number;
     processYear: number;
     processMonth: number;
     assetId: number;
