@@ -1,7 +1,7 @@
 model AccountingAccount {
   id            Int         @id @default(autoincrement())
 
-  accountNumber String      @unique
+  accountNumber String
   accountName   String
   accountType   AccountType
 
@@ -17,4 +17,6 @@ model AccountingAccount {
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+
+  @@unique([accountNumber], where: { status: true })
 }
