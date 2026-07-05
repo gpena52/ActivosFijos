@@ -1,7 +1,9 @@
+import { ErrorResponseDto } from "@/dtos/error-response.dto";
+
 export async function fetcher<T>(
     url: string,
     options?: RequestInit
-): Promise<T> {
+): Promise<ErrorResponseDto<T>> {
     const response = await fetch(url, {
         headers: {
             "Content-Type": "application/json",
@@ -10,10 +12,15 @@ export async function fetcher<T>(
         ...options,
     });
 
-    if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error || "Request failed");
-    }
+    // if (!response.ok) {
+    //     const error = await response.text();
+    //     throw new Error(error || "Request failed");
+    // }
 
-    return response.json();
+    return {
+        data: await response.json(),
+        ok: response.ok,
+        message: response.statusText,
+        code: response.status,
+    };
 }

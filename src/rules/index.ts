@@ -5,6 +5,11 @@ export const rules = {
         message: `${field} es requerido`,
     }),
 
+    number: () => ({
+        pattern: /^\d+$/,
+        message: "Ingrese un numero valido",
+    }),
+
     email: {
         type: "email" as const,
         message: "Ingrese un email valido",

@@ -4,10 +4,12 @@ import { Layout, Menu } from "antd";
 import {
     DashboardOutlined,
     ApartmentOutlined,
+    BookOutlined,
 } from "@ant-design/icons";
 import { useRouter, usePathname } from "next/navigation";
-import { ItemType, MenuItemType } from "antd/es/menu/interface";
 import { useEffect } from "react";
+import type { ReactNode } from "react";
+import type { ItemType, MenuItemType } from "antd/es/menu/interface";
 
 const { Sider } = Layout;
 
@@ -16,7 +18,13 @@ interface SidebarProps {
     setHeaderTitle: (headerTitle: string) => void;
 }
 
-const routes: ItemType<MenuItemType>[] = [
+interface AppRoute {
+    key: string;
+    icon: ReactNode;
+    label: string;
+}
+
+const routes: AppRoute[] = [
     {
         key: "/",
         icon: <DashboardOutlined />,
@@ -26,6 +34,11 @@ const routes: ItemType<MenuItemType>[] = [
         key: "/department",
         icon: <ApartmentOutlined />,
         label: "Departmentos",
+    },
+    {
+        key: "/accounting-account",
+        icon: <BookOutlined />,
+        label: "Cuentas",
     }
 ];
 
@@ -34,7 +47,7 @@ export default function Sidebar({ collapsed, setHeaderTitle }: SidebarProps) {
     const pathname = usePathname();
 
     useEffect(() => {
-        let route = routes.find(route => route!.key === pathname)
+        let route = routes.find(route => route.key === pathname)
         if (route) setHeaderTitle(route.label)
     })
 
@@ -62,7 +75,7 @@ export default function Sidebar({ collapsed, setHeaderTitle }: SidebarProps) {
                 mode="inline"
                 selectedKeys={[pathname]}
                 onClick={({ key }) => router.push(key)}
-                items={routes}
+                items={routes as ItemType<MenuItemType>[]}
             />
         </Sider>
     );
