@@ -90,11 +90,12 @@ export default function useAccountingAccount() {
                 `Ya existe una cuenta con el numero ${accountNumber}`
             );
             return;
-        } else {
+        } else if (!response.ok) {
             notify.error(
                 "Error",
                 response.message
             )
+            return
         }
 
         notify.success("Exito", successMessage);
