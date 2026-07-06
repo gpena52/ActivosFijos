@@ -1,4 +1,4 @@
-import type { PersonType } from "@/generated/prisma";
+import type { PersonType } from "@/generated/prisma/client";
 
 export interface EmployeeDto {
     id?: number;

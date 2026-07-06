@@ -39,6 +39,11 @@ const routes: AppRoute[] = [
         key: "/accounting-account",
         icon: <BookOutlined />,
         label: "Cuentas",
+    },
+    {
+    key: "/employee",
+    icon: <ApartmentOutlined />,
+    label: "Empleados",
     }
 ];
 
