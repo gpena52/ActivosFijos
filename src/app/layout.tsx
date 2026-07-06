@@ -5,6 +5,7 @@ import { Montserrat, Poppins } from "next/font/google";
 import Providers from "./providers";
 import AppLayout from "@/components/layout/AppLayout";
 import { App as AntdApp } from "antd";
+import { NotificationProvider } from "@/components/NotificationProvider";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -28,6 +29,7 @@ export default function RootLayout({
         <AntdRegistry>
   <Providers>
     <AntdApp>
+      <NotificationProvider />
       <AppLayout>{children}</AppLayout>
     </AntdApp>
   </Providers>

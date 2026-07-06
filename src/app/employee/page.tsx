@@ -26,7 +26,7 @@ const newEmployee: EmployeeDto = {
     id: undefined,
     name: "",
     nationalId: "",
-    departmentId: 0,
+    departmentId: undefined,
     personType: PersonType.INDIVIDUAL,
     hireDate: new Date(),
     status: true,
@@ -77,20 +77,15 @@ export default function EmployeesPage() {
             render: (date: Date) => dayjs(date).format("YYYY-MM-DD")
         },
         {
-            title: "Estado",
-            dataIndex: "status",
-            render: (status: boolean) => status ? "Activo" : "Inactivo"
-        },
-        {
             title: "Acciones",
             render: (_, record) => (
                 <Space>
-                    <Button
+                    <Button color="yellow" variant="solid" style={{ color: "black" }}
                         icon={<EditOutlined />}
                         onClick={() => onEdit(record.id!)}
                     />
-                    <Button
-                        danger
+                    <Button type="primary" danger style={{ color: "black" }}
+                        
                         icon={<DeleteOutlined />}
                         onClick={() => deleteById(record.id!)}
                     />
@@ -150,6 +145,12 @@ export default function EmployeesPage() {
             </Button>
 
             <Modal
+
+            title={
+                    <h3 className="mt-2" style={{ textAlign: "center" }}>
+                        Llene los campos
+                    </h3>
+                }
                 open={modalOpen}
                 onCancel={onCancel}
                 footer={[
@@ -210,15 +211,6 @@ export default function EmployeesPage() {
                         })}
                     >
                         <DatePicker style={{ width: "100%" }} />
-                    </Form.Item>
-
-                    <Form.Item label="Estado" name="status">
-                        <Select
-                            options={[
-                                { label: "Activo", value: true },
-                                { label: "Inactivo", value: false }
-                            ]}
-                        />
                     </Form.Item>
 
                 </Form>
