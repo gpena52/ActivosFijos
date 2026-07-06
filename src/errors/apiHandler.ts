@@ -1,31 +1,34 @@
-import { Prisma } from "@/generated/prisma";
+import { NextRequest, NextResponse } from "next/server";
 import { ApiError } from "./apiError";
 
 type Handler<T = unknown> = (
-    req: Request,
+    req: NextRequest,
     context: T
-) => Promise<Response>;
+) => Promise<NextResponse>;
 
 export function apiHandler<T>(handler: Handler<T>): Handler<T> {
     return async (req, context) => {
         try {
             return await handler(req, context);
         } catch (error: any) {
+
+            console.log(error)
+
             if (error instanceof ApiError) {
-                return Response.json(
+                return NextResponse.json(
                     { message: error.message },
                     { status: error.status }
                 );
             }
 
             if (error?.code === 'P2002') {
-                return Response.json(
+                return NextResponse.json(
                     { message: "Resource already exists" },
                     { status: 409 }
                 );
             }
 
-            return Response.json(
+            return NextResponse.json(
                 { message: "Internal Server Error" },
                 { status: 400 }
             );

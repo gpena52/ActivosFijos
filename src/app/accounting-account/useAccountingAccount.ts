@@ -39,13 +39,13 @@ export default function useAccountingAccount() {
             body: JSON.stringify(accountingAccount)
         });
 
+        setIsLoading(false);
+
         await handleSaveResponse(
             response,
             "Cuenta creada con exito",
             accountingAccount.accountNumber
         );
-
-        setIsLoading(false);
     }
 
     const update = async (accountingAccount: AccountingAccountDto) => {
@@ -55,13 +55,13 @@ export default function useAccountingAccount() {
             body: JSON.stringify(accountingAccount)
         });
 
+        setIsLoading(false);
+
         await handleSaveResponse(
             response,
             "Cuenta editada con exito",
             accountingAccount.accountNumber
         );
-
-        setIsLoading(false);
     }
 
     const deleteById = async (id: number) => {
@@ -70,13 +70,13 @@ export default function useAccountingAccount() {
             method: "DELETE"
         });
 
+        setIsLoading(false)
+
         await handleSaveResponse(
             response,
             "Cuenta eliminada con exito",
             ''
         );
-
-        setIsLoading(false)
     }
 
     const handleSaveResponse = async (

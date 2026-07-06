@@ -2,6 +2,7 @@ import type { AccountType, MovementType, PersonType } from "@/generated/prisma/e
 
 export const accountTypeLabels: Record<AccountType, string> = {
     ASSET: "Activo",
+    CONTRA_ASSET: "Contra Activo",
     LIABILITY: "Pasivo",
     EQUITY: "Capital",
     REVENUE: "Ingreso",

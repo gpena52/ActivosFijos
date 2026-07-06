@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import { notification } from "@/components/general/antd";
 
 export const notify = {
     success: (title: string, description?: string) =>

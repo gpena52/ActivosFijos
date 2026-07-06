@@ -1,14 +1,20 @@
 import { AccountingAccountDto } from "@/dtos/accounting-account.dto";
+import { AccountType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
 export class AccountingAccountRepository {
-    async getAll(): Promise<AccountingAccountDto[]> {
+    async getAll(accountTypes: AccountType[]): Promise<AccountingAccountDto[]> {
         const accountingAccounts = await prisma.accountingAccount.findMany({
             where: {
-                status: true
+                status: true,
+                ...(accountTypes.length !== 0 && {
+                    accountType: {
+                        in: accountTypes
+                    }
+                })
             },
             orderBy: {
-                accountType: "asc"
+                id: "asc"
             }
         });
 
