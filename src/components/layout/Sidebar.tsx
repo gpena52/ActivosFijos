@@ -39,6 +39,11 @@ const routes: AppRoute[] = [
         key: "/accounting-account",
         icon: <BookOutlined />,
         label: "Cuentas",
+    },
+    {
+        key: "/asset-type",
+        icon: <BookOutlined />,
+        label: "Tipos de Activos",
     }
 ];
 

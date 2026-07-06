@@ -38,10 +38,10 @@ export default function useDeparment() {
             body: JSON.stringify(department)
         });
 
-        await handleMutationResponse(response, "Departamento creado con exito");
-
         setDepartments(await getAll());
         setIsLoading(false);
+
+        await handleMutationResponse(response, "Departamento creado con exito");
     }
 
     const update = async (department: DepartmentDto) => {
@@ -51,10 +51,10 @@ export default function useDeparment() {
             body: JSON.stringify(department)
         });
 
-        await handleMutationResponse(response, "Departamento editado con exito");
-
         setDepartments(await getAll());
         setIsLoading(false);
+
+        await handleMutationResponse(response, "Departamento editado con exito");
     }
 
     const deleteById = async (id: number) => {
@@ -63,10 +63,10 @@ export default function useDeparment() {
             method: "DELETE"
         });
 
-        await handleMutationResponse(response, "Departamento eliminado con exito");
-
         setDepartments(await getAll())
         setIsLoading(false)
+
+        await handleMutationResponse(response, "Departamento eliminado con exito");
     }
 
     const handleMutationResponse = async (
@@ -78,6 +78,7 @@ export default function useDeparment() {
                 "Error",
                 response.message
             )
+            return
         }
 
         notify.success("Exito", successMessage);

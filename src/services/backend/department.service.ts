@@ -1,7 +1,7 @@
 import { DepartmentDto } from "@/dtos";
 import { ApiError } from "@/errors/apiError";
 import { DepartmentRepository } from "@/repositories/backend/department.repository";
-import { createDepartmentSchema, updateDepartmentSchema } from "@/validation/departmentSchema";
+import { createDepartmentSchema, updateDepartmentSchema } from "@/validation/department.schema";
 
 const repository = new DepartmentRepository();
 

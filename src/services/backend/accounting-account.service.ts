@@ -1,14 +1,15 @@
 import { AccountingAccountDto } from "@/dtos";
 import { ApiError } from "@/errors/apiError";
+import { AccountType } from "@/generated/prisma/enums";
 import { AccountingAccountRepository } from "@/repositories/backend/accounting-account.repository";
-import { createAccountingAccountSchema, updateAccountingAccountSchema } from "@/validation/accountingAccountSchema";
+import { createAccountingAccountSchema, updateAccountingAccountSchema } from "@/validation/accountingAccount.schema";
 
 const repository = new AccountingAccountRepository();
 
 export class AccountingAccountService {
 
-    async getAll() {
-        return repository.getAll();
+    async getAll(accountTypes: AccountType[]) {
+        return repository.getAll(accountTypes);
     }
 
     async getById(id: number) {

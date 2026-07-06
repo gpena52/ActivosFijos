@@ -1,6 +1,7 @@
 "use client";
 
-import { ConfigProvider, theme } from "antd";
+import AntdApp from "@/components/general/antd";
+import { App, ConfigProvider, theme } from "antd";
 
 export default function Providers({
     children,
@@ -17,7 +18,10 @@ export default function Providers({
                 },
             }}
         >
-            {children}
+            <App>
+                <AntdApp />
+                {children}
+            </App>
         </ConfigProvider>
     );
 }
