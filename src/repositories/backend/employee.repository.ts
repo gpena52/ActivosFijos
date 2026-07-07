@@ -23,8 +23,11 @@ export class EmployeeRepository {
     }
 
     async create(employee: EmployeeDto): Promise<EmployeeDto> {
+
+        const { id, ...data } = employee
+
         return prisma.employee.create({
-            data: employee
+            data: { ...data, departmentId: data.departmentId!, personType: data.personType!, hireDate: data.hireDate! }
         });
     }
 

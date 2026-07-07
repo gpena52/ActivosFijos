@@ -8,7 +8,8 @@ import {
     Select,
     Skeleton,
     Space,
-    DatePicker
+    DatePicker,
+    Typography
 } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { useState } from "react";
@@ -50,6 +51,7 @@ export default function EmployeesPage() {
     const [form] = Form.useForm();
     const [modalOpen, setModalOpen] = useState(false);
     const [isEditLoading, setIsEditLoading] = useState(false);
+    const [validateIdentification, setValidateIdentification] = useState(false);
 
     const columns: ColumnsType<EmployeeDto> = [
         {
@@ -74,7 +76,7 @@ export default function EmployeesPage() {
         {
             title: "Fecha Ingreso",
             dataIndex: "hireDate",
-            render: (date: Date) => dayjs(date).format("YYYY-MM-DD")
+            render: (date: Date) => dayjs(date).format("DD-MM-YYYY")
         },
         {
             title: "Acciones",
@@ -97,6 +99,7 @@ export default function EmployeesPage() {
     const clearForm = () => {
         form.resetFields();
         form.setFieldsValue(newEmployee);
+        setValidateIdentification(false);
     };
 
     const onFinish = async (values: any) => {
@@ -108,11 +111,11 @@ export default function EmployeesPage() {
             values.hireDate ||
             new Date();
 
-    const payload: EmployeeDto = {
-        ...newEmployee,
-        ...values,
-        hireDate
-    };
+        const payload: EmployeeDto = {
+            ...newEmployee,
+            ...values,
+            hireDate
+        };
 
         values.id ? await update(payload) : await create(payload);
 
@@ -139,6 +142,11 @@ export default function EmployeesPage() {
         clearForm();
     };
 
+    const onSubmit = () => {
+        setValidateIdentification(true);
+        form.submit();
+    };
+
     return (
         <>
             <Button type="primary" onClick={() => setModalOpen(true)}>
@@ -158,7 +166,7 @@ export default function EmployeesPage() {
                     <Button key="cancel" type="primary" danger onClick={onCancel}>
                         Cancelar
                     </Button>,
-                    <Button key="save" type="primary" onClick={() => form.submit()}>
+                    <Button key="save" type="primary" disabled={isEditLoading} onClick={onSubmit}>
                         Guardar
                     </Button>
                 ]}
@@ -175,11 +183,22 @@ export default function EmployeesPage() {
                     </Form.Item>
 
                     <Form.Item label="Nombre" name="name" rules={[rules.required("Nombre")]}>
-                        {isEditLoading ? <Skeleton.Input active /> : <Input />}
+                        {isEditLoading ? <Skeleton.Input active block /> : <Input />}
                     </Form.Item>
 
-                    <Form.Item label="Cédula" name="nationalId" rules={[rules.required("Cédula")]}>
-                        {isEditLoading ? <Skeleton.Input active /> : <Input />}
+                    <Form.Item label={
+                        <>
+                            Cédula
+                            <Typography.Text className="ml-1" type="secondary">
+                                (Sin guiones)
+                            </Typography.Text>
+                        </>
+                    }
+                        name="nationalId"
+                        rules={[rules.required("Cédula"), rules.number, validateIdentification ? rules.indentification : {}]}
+                        validateFirst
+                    >
+                        {isEditLoading ? <Skeleton.Input active block /> : <Input />}
                     </Form.Item>
 
                     <Form.Item
@@ -187,23 +206,30 @@ export default function EmployeesPage() {
                         name="departmentId"
                         rules={[rules.required("Departamento")]}
                     >
-                        <Select
-                            options={departments.map(d => ({
-                                label: d.name,
-                                value: d.id
-                            }))}
-                            placeholder="Seleccione un Departamento"
-                        />
+                        {isEditLoading
+                            ? <Skeleton.Input active block />
+                            : <Select
+                                options={departments.map(d => ({
+                                    label: d.name,
+                                    value: d.id
+                                }))}
+                                placeholder="Seleccione un Departamento"
+                            />
+                        }
+
                     </Form.Item>
 
                     <Form.Item label="Tipo Persona" name="personType" rules={[rules.required("Tipo Persona")]}>
-                        <Select
-                            options={[
-                                { label: "Física", value: PersonType.INDIVIDUAL },
-                                { label: "Jurídica", value: PersonType.COMPANY }
-                            ]}
-                            placeholder="Seleccione un Tipo de Persona"
-                        />
+                        {isEditLoading
+                            ? <Skeleton.Input active block />
+                            : <Select
+                                options={[
+                                    { label: "Física", value: PersonType.INDIVIDUAL },
+                                    { label: "Jurídica", value: PersonType.COMPANY }
+                                ]}
+                                placeholder="Seleccione un Tipo de Persona"
+                            />
+                        }
                     </Form.Item>
 
                     <Form.Item
@@ -214,7 +240,10 @@ export default function EmployeesPage() {
                             value: value ? dayjs(value) : null
                         })}
                     >
-                        <DatePicker style={{ width: "100%" }} placeholder="Seleccione una Fecha de Ingreso" />
+                        {isEditLoading
+                            ? <Skeleton.Input active block />
+                            : <DatePicker style={{ width: "100%" }} placeholder="Seleccione una Fecha de Ingreso" />
+                        }
                     </Form.Item>
 
                 </Form>

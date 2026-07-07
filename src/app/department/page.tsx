@@ -97,10 +97,11 @@ export default function Deparment() {
                     <Button key="cancel" type="primary" danger onClick={onCancel}>
                         Cancelar
                     </Button>,
-                    <Button key="save" type="primary" onClick={() => form.submit()}>
+                    <Button key="save" type="primary" disabled={isEditLoading} onClick={() => form.submit()}>
                         Guardar
-                    </Button>,
-                ]}
+                    </Button >,
+                ]
+                }
             >
                 <Form form={form} initialValues={newDepartment} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>
@@ -115,7 +116,7 @@ export default function Deparment() {
                         {isEditLoading ? <Skeleton.Input active block /> : <TextArea />}
                     </Form.Item>
                 </Form>
-            </Modal>
+            </Modal >
 
             <Table
                 rowKey="id"

@@ -1,3 +1,5 @@
+import { validateIdentification } from "@/utils/validateIdentification";
+
 // validation.ts
 export const rules = {
     required: (field: string) => ({
@@ -7,7 +9,7 @@ export const rules = {
 
     number: () => ({
         pattern: /^\d+$/,
-        message: "Ingrese un numero valido",
+        message: "No se permiten valores no numericos",
     }),
 
     min: (min: number) => ({
@@ -20,4 +22,15 @@ export const rules = {
         type: "email" as const,
         message: "Ingrese un email valido",
     },
+
+    indentification: {
+        validator: (_: any, value: string) => {
+            console.log({ _, value })
+            if (!validateIdentification(value)) {
+                return Promise.reject("Ingrese una cedula valida")
+            }
+
+            return Promise.resolve();
+        }
+    }
 };

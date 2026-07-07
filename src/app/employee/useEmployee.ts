@@ -97,9 +97,7 @@ export default function useEmployees() {
             );
 
             return;
-        }
-
-        if (!response.ok) {
+        } else if (!response.ok) {
 
             notify.error(
                 "Error",

@@ -122,10 +122,11 @@ export default function AssetType() {
                     <Button key="cancel" type="primary" danger onClick={onCancel}>
                         Cancelar
                     </Button>,
-                    <Button key="save" type="primary" onClick={() => form.submit()}>
+                    <Button key="save" type="primary" disabled={isEditLoading} onClick={() => form.submit()}>
                         Guardar
-                    </Button>,
-                ]}
+                    </Button >,
+                ]
+                }
             >
                 <Form form={form} initialValues={newAssetType} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>
@@ -158,7 +159,7 @@ export default function AssetType() {
                         {isEditLoading ? <Skeleton.Input active block /> : <TextArea />}
                     </Form.Item>
                 </Form>
-            </Modal>
+            </Modal >
 
             <Table
                 rowKey="id"

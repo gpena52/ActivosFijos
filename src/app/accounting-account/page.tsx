@@ -105,17 +105,18 @@ export default function AccountingAccount() {
                     <Button key="cancel" type="primary" danger onClick={onCancel}>
                         Cancelar
                     </Button>,
-                    <Button key="save" type="primary" onClick={() => form.submit()}>
+                    <Button key="save" type="primary" disabled={isEditLoading} onClick={() => form.submit()}>
                         Guardar
-                    </Button>,
-                ]}
+                    </Button >,
+                ]
+                }
             >
                 <Form form={form} initialValues={newAccountingAccount} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>
                         {isEditLoading ? <Skeleton.Input active /> : <Input />}
                     </Form.Item>
 
-                    <Form.Item label="Numero" name="accountNumber" rules={[rules.required("Numero"), rules.number()]}>
+                    <Form.Item label="Numero" name="accountNumber" rules={[rules.required("Numero"), rules.number]}>
                         {isEditLoading ? <Skeleton.Input active block /> : <Input />}
                     </Form.Item>
 
@@ -136,7 +137,7 @@ export default function AccountingAccount() {
                         )}
                     </Form.Item>
                 </Form>
-            </Modal>
+            </Modal >
 
             <Table
                 rowKey="id"

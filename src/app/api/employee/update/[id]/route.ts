@@ -1,21 +1,14 @@
+import { apiHandler } from "@/errors/apiHandler";
 import { EmployeeService } from "@/services/backend/employee.service";
+import { NextRequest, NextResponse } from "next/server";
 
 const service = new EmployeeService();
 
-type Params = Promise<{
-    id: string;
-}>;
+export const PUT = apiHandler(async (req: NextRequest, context: RouteContext<"/api/employee/update/[id]">) => {
 
-export async function PUT(
-    request: Request,
-    { params }: { params: Params }
-) {
+    const { id } = await context.params;
+    const body = await req.json();
+    const employee = await service.update({ id: Number(id), ...body });
 
-    await params;
-
-    const employee = await request.json();
-
-    const updated = await service.update(employee);
-
-    return Response.json(updated);
-}
+    return NextResponse.json(employee);
+})

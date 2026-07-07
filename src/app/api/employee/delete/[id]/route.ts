@@ -1,19 +1,13 @@
+import { apiHandler } from "@/errors/apiHandler";
 import { EmployeeService } from "@/services/backend/employee.service";
+import { NextRequest, NextResponse } from "next/server";
 
 const service = new EmployeeService();
 
-type Params = Promise<{
-    id: string;
-}>;
+export const DELETE = apiHandler(async (req: NextRequest, context: RouteContext<"/api/employee/delete/[id]">) => {
 
-export async function DELETE(
-    _: Request,
-    { params }: { params: Params }
-) {
-
-    const { id } = await params;
-
+    const { id } = await context.params;
     const employee = await service.delete(Number(id));
 
-    return Response.json(employee);
-}
+    return NextResponse.json(employee);
+})

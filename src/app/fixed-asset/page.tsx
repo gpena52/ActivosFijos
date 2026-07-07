@@ -155,10 +155,11 @@ export default function FixedAsset() {
                     <Button key="cancel" type="primary" danger onClick={onCancel}>
                         Cancelar
                     </Button>,
-                    <Button key="save" type="primary" onClick={() => form.submit()}>
+                    <Button key="save" type="primary" disabled={isEditLoading} onClick={() => form.submit()}>
                         Guardar
-                    </Button>,
-                ]}
+                    </Button >,
+                ]
+                }
             >
                 <Form form={form} initialValues={newFixedAsset} layout="vertical" onFinish={onFinish}>
                     <Row gutter={gutter}>
@@ -227,7 +228,7 @@ export default function FixedAsset() {
                         </Col>
                     </Row>
                 </Form>
-            </Modal>
+            </Modal >
 
             <Table
                 rowKey="id"

@@ -1,29 +1,12 @@
+import { apiHandler } from "@/errors/apiHandler";
 import { EmployeeService } from "@/services/backend/employee.service";
+import { NextRequest, NextResponse } from "next/server";
 
 const service = new EmployeeService();
 
-export async function POST(request: Request) {
+export const POST = apiHandler(async (req: NextRequest) => {
+    const body = await req.json();
+    const employee = await service.create(body);
 
-    try {
-        const employee = await request.json();
-        console.log(employee);
-        const created = await service.create(employee);
-
-        return Response.json({
-            ok: true,
-            data: created
-        });
-
-    } catch (error: any) {
-
-        console.error("ERROR CREATE EMPLOYEE:", error);
-
-        return Response.json(
-            {
-                ok: false,
-                message: error.message || "Error interno del servidor"
-            },
-            { status: 500 }
-        );
-    }
-}
+    return NextResponse.json(employee, { status: 201 });
+})

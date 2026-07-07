@@ -1,7 +1,7 @@
 model Employee {
   id           Int        @id @default(autoincrement())
   name         String
-  nationalId   String     @unique
+  nationalId   String
 
   departmentId Int
   department   Department @relation(fields: [departmentId], references: [id])
@@ -13,4 +13,6 @@ model Employee {
 
   createdAt    DateTime   @default(now())
   updatedAt    DateTime?   @updatedAt
+
+  @@unique([nationalId], where: { status: true })
 }

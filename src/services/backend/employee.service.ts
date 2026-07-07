@@ -20,10 +20,10 @@ export class EmployeeService {
     }
 
     async create(employee: EmployeeDto) {
-        employee.hireDate = new Date(employee.hireDate); 
-        console.log(employee);
+        employee.hireDate = new Date(employee.hireDate!);
+
         const validated = createEmployeeSchema.safeParse(employee);
-       
+
         if (!validated.success)
             throw new ApiError(400, validated.error.message);
 
@@ -33,7 +33,7 @@ export class EmployeeService {
     }
 
     async update(employee: EmployeeDto) {
-         employee.hireDate = new Date(employee.hireDate); 
+        employee.hireDate = new Date(employee.hireDate!);
         const validated = updateEmployeeSchema.safeParse(employee);
 
         if (!validated.success)

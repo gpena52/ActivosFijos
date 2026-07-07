@@ -14,7 +14,10 @@ export class AccountingAccountRepository {
                 })
             },
             orderBy: {
-                accountType: "asc"
+                ...(accountTypes.length !== 0
+                    ? { accountNumber: "asc" }
+                    : { accountType: "asc" }
+                )
             }
         });
 
