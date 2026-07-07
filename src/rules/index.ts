@@ -1,4 +1,5 @@
 import { validateIdentification } from "@/utils/validateIdentification";
+import { Rule } from "antd/es/form";
 
 // validation.ts
 export const rules = {
@@ -7,21 +8,21 @@ export const rules = {
         message: `${field} es requerido`,
     }),
 
-    number: () => ({
+    email: {
+        type: "email" as const,
+        message: "Ingrese un email valido",
+    },
+
+    number: {
         pattern: /^\d+$/,
         message: "No se permiten valores no numericos",
-    }),
+    },
 
     min: (min: number) => ({
         min,
         type: "number" as const,
         message: `Debe ser mayor o igual a ${min}`,
     }),
-
-    email: {
-        type: "email" as const,
-        message: "Ingrese un email valido",
-    },
 
     indentification: {
         validator: (_: any, value: string) => {
@@ -32,5 +33,37 @@ export const rules = {
 
             return Promise.resolve();
         }
-    }
+    },
+
+    greaterOrEqualThan: (
+        otherField: string,
+        message: string,
+    ): Rule =>
+        ({ getFieldValue }) => ({
+            async validator(_, value: number) {
+                const otherValue = Number(getFieldValue(otherField));
+
+                if (!otherValue || !value || value >= otherValue) {
+                    return;
+                }
+
+                throw new Error(`${message} ${otherValue}`);
+            },
+        }),
+
+    lesserOrEqualThan: (
+        otherField: string,
+        message: string,
+    ): Rule =>
+        ({ getFieldValue }) => ({
+            async validator(_, value: number) {
+                const otherValue = Number(getFieldValue(otherField));
+
+                if (!otherValue || !value || value <= otherValue) {
+                    return;
+                }
+
+                throw new Error(`${message} ${otherValue}`);
+            },
+        })
 };

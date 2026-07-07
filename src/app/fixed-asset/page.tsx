@@ -210,13 +210,13 @@ export default function FixedAsset() {
                         </Col>
 
                         <Col span={fullWidth} lg={halfWidth}>
-                            <Form.Item label="Valor de Compra" name="purchaseValue" rules={[rules.required("Valor de Compra"), rules.min(1)]}>
+                            <Form.Item dependencies={["accumulatedDepreciation"]} label="Valor de Compra" name="purchaseValue" rules={[rules.required("Valor de Compra"), rules.min(1), rules.greaterOrEqualThan("accumulatedDepreciation", "El valor de compra debe ser mayor o igual a")]} validateFirst>
                                 {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" className="w-100" />}
                             </Form.Item>
                         </Col>
 
                         <Col span={fullWidth} lg={halfWidth}>
-                            <Form.Item label="Depreciacion Acumulada" name="accumulatedDepreciation" rules={[rules.required("Depreciacion Acumulada"), rules.min(1)]}>
+                            <Form.Item dependencies={["purchaseValue"]} label="Depreciacion Acumulada" name="accumulatedDepreciation" rules={[rules.required("Depreciacion Acumulada"), rules.min(1), rules.lesserOrEqualThan("purchaseValue", "La depreciacion acumulada debe ser menor a")]} validateFirst>
                                 {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" className="w-100" />}
                             </Form.Item>
                         </Col>
