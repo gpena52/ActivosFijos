@@ -109,6 +109,7 @@ export default function EmployeesPage() {
         new Date();
 
     const payload: EmployeeDto = {
+        ...newEmployee,
         ...values,
         hireDate
     };

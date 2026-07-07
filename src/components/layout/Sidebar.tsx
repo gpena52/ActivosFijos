@@ -46,7 +46,8 @@ const routes: AppRoute[] = [
     key: "/employee",
     icon: <ApartmentOutlined />,
     label: "Empleados",
-    }
+    },
+    {
         key: "/asset-type",
         icon: <AppstoreOutlined />,
         label: "Tipos de Activos",
