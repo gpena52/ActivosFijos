@@ -10,6 +10,12 @@ export const rules = {
         message: "Ingrese un numero valido",
     }),
 
+    min: (min: number) => ({
+        min,
+        type: "number" as const,
+        message: `Debe ser mayor o igual a ${min}`,
+    }),
+
     email: {
         type: "email" as const,
         message: "Ingrese un email valido",

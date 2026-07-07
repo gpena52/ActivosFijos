@@ -1,6 +1,7 @@
 model FixedAsset {
   id Int @id @default(autoincrement())
 
+  name String
   description String?
 
   departmentId Int
@@ -14,6 +15,8 @@ model FixedAsset {
   purchaseValue Decimal @db.Decimal(18,2)
 
   accumulatedDepreciation Decimal @default(0) @db.Decimal(18,2)
+
+  status       Boolean    @default(true)
 
   depreciationRecords DepreciationRecord[]
 

@@ -1,6 +1,7 @@
 model AssetType {
   id          Int     @id @default(autoincrement())
 
+  name        String
   description String?
 
   purchaseAccountId Int
