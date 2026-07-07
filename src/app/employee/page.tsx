@@ -27,8 +27,8 @@ const newEmployee: EmployeeDto = {
     name: "",
     nationalId: "",
     departmentId: undefined,
-    personType: PersonType.INDIVIDUAL,
-    hireDate: new Date(),
+    personType: undefined,
+    hireDate: undefined,
     status: true,
     createdAt: new Date(),
     updatedAt: null
@@ -84,8 +84,8 @@ export default function EmployeesPage() {
                         icon={<EditOutlined />}
                         onClick={() => onEdit(record.id!)}
                     />
-                    <Button type="primary" danger style={{ color: "black" }}
-                        
+                    <Button type="primary" danger
+
                         icon={<DeleteOutlined />}
                         onClick={() => deleteById(record.id!)}
                     />
@@ -101,12 +101,12 @@ export default function EmployeesPage() {
 
     const onFinish = async (values: any) => {
 
-    setModalOpen(false);
+        setModalOpen(false);
 
-    const hireDate =
-        values.hireDate?.toDate?.() ||
-        values.hireDate ||
-        new Date();
+        const hireDate =
+            values.hireDate?.toDate?.() ||
+            values.hireDate ||
+            new Date();
 
     const payload: EmployeeDto = {
         ...newEmployee,
@@ -114,10 +114,10 @@ export default function EmployeesPage() {
         hireDate
     };
 
-    values.id ? await update(payload) : await create(payload);
+        values.id ? await update(payload) : await create(payload);
 
-    clearForm();
-};
+        clearForm();
+    };
 
     const onEdit = async (id: number) => {
 
@@ -147,7 +147,7 @@ export default function EmployeesPage() {
 
             <Modal
 
-            title={
+                title={
                     <h3 className="mt-2" style={{ textAlign: "center" }}>
                         Llene los campos
                     </h3>
@@ -155,7 +155,7 @@ export default function EmployeesPage() {
                 open={modalOpen}
                 onCancel={onCancel}
                 footer={[
-                    <Button key="cancel" danger onClick={onCancel}>
+                    <Button key="cancel" type="primary" danger onClick={onCancel}>
                         Cancelar
                     </Button>,
                     <Button key="save" type="primary" onClick={() => form.submit()}>
@@ -192,26 +192,29 @@ export default function EmployeesPage() {
                                 label: d.name,
                                 value: d.id
                             }))}
+                            placeholder="Seleccione un Departamento"
                         />
                     </Form.Item>
 
-                    <Form.Item label="Tipo Persona" name="personType">
+                    <Form.Item label="Tipo Persona" name="personType" rules={[rules.required("Tipo Persona")]}>
                         <Select
                             options={[
                                 { label: "Física", value: PersonType.INDIVIDUAL },
                                 { label: "Jurídica", value: PersonType.COMPANY }
                             ]}
+                            placeholder="Seleccione un Tipo de Persona"
                         />
                     </Form.Item>
 
                     <Form.Item
                         label="Fecha de Ingreso"
                         name="hireDate"
+                        rules={[rules.required("Fecha de Ingreso")]}
                         getValueProps={(value) => ({
                             value: value ? dayjs(value) : null
                         })}
                     >
-                        <DatePicker style={{ width: "100%" }} />
+                        <DatePicker style={{ width: "100%" }} placeholder="Seleccione una Fecha de Ingreso" />
                     </Form.Item>
 
                 </Form>
@@ -223,6 +226,7 @@ export default function EmployeesPage() {
                 dataSource={employees}
                 columns={columns}
                 className="mt-5"
+                scroll={{ x: true }}
             />
         </>
     );

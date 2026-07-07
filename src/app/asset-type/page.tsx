@@ -167,6 +167,7 @@ export default function AssetType() {
                 dataSource={assetTypes}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
+                scroll={{ x: true }}
             />
         </>
     )

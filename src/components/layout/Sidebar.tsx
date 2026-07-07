@@ -7,6 +7,7 @@ import {
     BookOutlined,
     AppstoreOutlined,
     BankOutlined,
+    UserOutlined,
 } from "@ant-design/icons";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -38,14 +39,14 @@ const routes: AppRoute[] = [
         label: "Departmentos",
     },
     {
+        key: "/employee",
+        icon: <UserOutlined />,
+        label: "Empleados",
+    },
+    {
         key: "/accounting-account",
         icon: <BookOutlined />,
         label: "Cuentas",
-    },
-    {
-    key: "/employee",
-    icon: <ApartmentOutlined />,
-    label: "Empleados",
     },
     {
         key: "/asset-type",

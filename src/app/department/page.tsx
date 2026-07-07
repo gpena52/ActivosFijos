@@ -124,6 +124,7 @@ export default function Deparment() {
                 dataSource={departments}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
+                scroll={{ x: true }}
             />
         </>
     );
