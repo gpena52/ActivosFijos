@@ -136,7 +136,6 @@ export default function AssetType() {
                         {isEditLoading ? <Skeleton.Input active block /> : <Input />}
                     </Form.Item>
 
-
                     <Form.Item name="purchaseAccountId" label="Cuenta contable de compra" rules={[rules.required("Cuenta contable de compra")]}>
                         {isEditLoading
                             ? <Skeleton.Input active block />

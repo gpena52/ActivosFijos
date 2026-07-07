@@ -16,8 +16,6 @@ export class AssetTypeRepository {
             }
         });
 
-        console.log(assetTypes)
-
         return assetTypes;
     }
 

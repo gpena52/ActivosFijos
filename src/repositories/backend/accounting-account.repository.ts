@@ -14,7 +14,7 @@ export class AccountingAccountRepository {
                 })
             },
             orderBy: {
-                id: "asc"
+                accountType: "asc"
             }
         });
 
