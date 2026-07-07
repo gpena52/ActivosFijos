@@ -84,8 +84,8 @@ export default function EmployeesPage() {
                         icon={<EditOutlined />}
                         onClick={() => onEdit(record.id!)}
                     />
-                    <Button type="primary" danger style={{ color: "black" }}
-                        
+                    <Button type="primary" danger
+
                         icon={<DeleteOutlined />}
                         onClick={() => deleteById(record.id!)}
                     />
@@ -101,22 +101,22 @@ export default function EmployeesPage() {
 
     const onFinish = async (values: any) => {
 
-    setModalOpen(false);
+        setModalOpen(false);
 
-    const hireDate =
-        values.hireDate?.toDate?.() ||
-        values.hireDate ||
-        new Date();
+        const hireDate =
+            values.hireDate?.toDate?.() ||
+            values.hireDate ||
+            new Date();
 
-    const payload: EmployeeDto = {
-        ...values,
-        hireDate
+        const payload: EmployeeDto = {
+            ...values,
+            hireDate
+        };
+
+        values.id ? await update(payload) : await create(payload);
+
+        clearForm();
     };
-
-    values.id ? await update(payload) : await create(payload);
-
-    clearForm();
-};
 
     const onEdit = async (id: number) => {
 
@@ -146,7 +146,7 @@ export default function EmployeesPage() {
 
             <Modal
 
-            title={
+                title={
                     <h3 className="mt-2" style={{ textAlign: "center" }}>
                         Llene los campos
                     </h3>
@@ -154,7 +154,7 @@ export default function EmployeesPage() {
                 open={modalOpen}
                 onCancel={onCancel}
                 footer={[
-                    <Button key="cancel" danger onClick={onCancel}>
+                    <Button key="cancel" type="primary" danger onClick={onCancel}>
                         Cancelar
                     </Button>,
                     <Button key="save" type="primary" onClick={() => form.submit()}>
