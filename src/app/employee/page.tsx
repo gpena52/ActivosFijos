@@ -108,10 +108,11 @@ export default function EmployeesPage() {
             values.hireDate ||
             new Date();
 
-        const payload: EmployeeDto = {
-            ...values,
-            hireDate
-        };
+    const payload: EmployeeDto = {
+        ...newEmployee,
+        ...values,
+        hireDate
+    };
 
         values.id ? await update(payload) : await create(payload);
 
