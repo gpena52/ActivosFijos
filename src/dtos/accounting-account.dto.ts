@@ -1,4 +1,4 @@
-import type { AccountType } from "@/generated/prisma";
+import type { AccountType } from "@/generated/prisma/client";
 
 export interface AccountingAccountDto {
     id?: number;
