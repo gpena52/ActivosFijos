@@ -174,7 +174,7 @@ export default function FixedAsset() {
                             </Form.Item>
                         </Col>
 
-                        <Col span={halfWidth}>
+                        <Col span={fullWidth} lg={halfWidth}>
                             <Form.Item label="Departamento" name="departmentId" rules={[rules.required("Departamento")]}>
                                 {isEditLoading
                                     ? <Skeleton.Input active block />
@@ -188,7 +188,7 @@ export default function FixedAsset() {
                             </Form.Item>
                         </Col>
 
-                        <Col span={halfWidth}>
+                        <Col span={fullWidth} lg={halfWidth}>
                             <Form.Item label="Tipo de Activo" name="assetTypeId" rules={[rules.required("Tipo de Activo")]}>
                                 {isEditLoading
                                     ? <Skeleton.Input active block />
@@ -208,13 +208,13 @@ export default function FixedAsset() {
                             </Form.Item>
                         </Col>
 
-                        <Col span={halfWidth}>
+                        <Col span={fullWidth} lg={halfWidth}>
                             <Form.Item label="Valor de Compra" name="purchaseValue" rules={[rules.required("Valor de Compra"), rules.min(1)]}>
                                 {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" className="w-100" />}
                             </Form.Item>
                         </Col>
 
-                        <Col span={halfWidth}>
+                        <Col span={fullWidth} lg={halfWidth}>
                             <Form.Item label="Depreciacion Acumulada" name="accumulatedDepreciation" rules={[rules.required("Depreciacion Acumulada"), rules.min(1)]}>
                                 {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" className="w-100" />}
                             </Form.Item>
@@ -236,6 +236,7 @@ export default function FixedAsset() {
                 dataSource={fixedAssets}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
+                scroll={{ x: true }}
             />
         </>
     )

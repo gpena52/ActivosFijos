@@ -145,6 +145,7 @@ export default function AccountingAccount() {
                 dataSource={accountingAccounts}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
+                scroll={{ x: true }}
             />
         </>
     );

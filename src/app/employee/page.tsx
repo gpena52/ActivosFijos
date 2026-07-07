@@ -225,6 +225,7 @@ export default function EmployeesPage() {
                 dataSource={employees}
                 columns={columns}
                 className="mt-5"
+                scroll={{ x: true }}
             />
         </>
     );
