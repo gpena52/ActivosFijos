@@ -5,6 +5,8 @@ import {
     DashboardOutlined,
     ApartmentOutlined,
     BookOutlined,
+    AppstoreOutlined,
+    BankOutlined,
 } from "@ant-design/icons";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -42,9 +44,14 @@ const routes: AppRoute[] = [
     },
     {
         key: "/asset-type",
-        icon: <BookOutlined />,
+        icon: <AppstoreOutlined />,
         label: "Tipos de Activos",
-    }
+    },
+    {
+        key: "/fixed-asset",
+        icon: <BankOutlined />,
+        label: "Activos Fijos",
+    },
 ];
 
 export default function Sidebar({ collapsed, setHeaderTitle }: SidebarProps) {
