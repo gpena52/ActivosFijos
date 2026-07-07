@@ -27,8 +27,8 @@ const newEmployee: EmployeeDto = {
     name: "",
     nationalId: "",
     departmentId: undefined,
-    personType: PersonType.INDIVIDUAL,
-    hireDate: new Date(),
+    personType: undefined,
+    hireDate: undefined,
     status: true,
     createdAt: new Date(),
     updatedAt: null
@@ -191,26 +191,29 @@ export default function EmployeesPage() {
                                 label: d.name,
                                 value: d.id
                             }))}
+                            placeholder="Seleccione un Departamento"
                         />
                     </Form.Item>
 
-                    <Form.Item label="Tipo Persona" name="personType">
+                    <Form.Item label="Tipo Persona" name="personType" rules={[rules.required("Tipo Persona")]}>
                         <Select
                             options={[
                                 { label: "Física", value: PersonType.INDIVIDUAL },
                                 { label: "Jurídica", value: PersonType.COMPANY }
                             ]}
+                            placeholder="Seleccione un Tipo de Persona"
                         />
                     </Form.Item>
 
                     <Form.Item
                         label="Fecha de Ingreso"
                         name="hireDate"
+                        rules={[rules.required("Fecha de Ingreso")]}
                         getValueProps={(value) => ({
                             value: value ? dayjs(value) : null
                         })}
                     >
-                        <DatePicker style={{ width: "100%" }} />
+                        <DatePicker style={{ width: "100%" }} placeholder="Seleccione una Fecha de Ingreso" />
                     </Form.Item>
 
                 </Form>

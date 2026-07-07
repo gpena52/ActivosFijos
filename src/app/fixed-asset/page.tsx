@@ -204,7 +204,7 @@ export default function FixedAsset() {
 
                         <Col span={fullWidth}>
                             <Form.Item label="Fecha de Registro" name="dateValue" rules={[rules.required("Fecha de Registro")]}>
-                                {isEditLoading ? <Skeleton.Input active block /> : <DatePicker className="w-100" />}
+                                {isEditLoading ? <Skeleton.Input active block /> : <DatePicker className="w-100" placeholder="Seleccione una Fecha de Registro" />}
                             </Form.Item>
                         </Col>
 

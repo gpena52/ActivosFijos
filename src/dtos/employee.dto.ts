@@ -5,8 +5,8 @@ export interface EmployeeDto {
     name: string;
     nationalId: string;
     departmentId: undefined;
-    personType: PersonType;
-    hireDate: Date;
+    personType?: PersonType;
+    hireDate?: Date;
     status: boolean;
     createdAt: Date;
     updatedAt: Date | null;
