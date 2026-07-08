@@ -34,7 +34,9 @@ cd ActivosFijos
 npm install
 ```
 
-3. Configura variables de entorno (crear un archivo `.env.local` en la raíz). Ejemplo:
+3. Configura variables de entorno (crear un archivo `.env.local` o `.env` en la raíz). IMPORTANTe: no subas este archivo al repositorio — añade `/.env` o `.env.local` a tu `.gitignore`.
+
+Ejemplo:
 
 ```
 # Ejemplo de variables (ajusta según tu app)
