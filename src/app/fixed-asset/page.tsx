@@ -91,7 +91,7 @@ export default function FixedAsset() {
             key: "purchaseValue"
         },
         {
-            title: "Depreciacion Acumulada",
+            title: "Valor de Depreciacion",
             dataIndex: "accumulatedDepreciation",
             key: "accumulatedDepreciation"
         },
@@ -216,7 +216,7 @@ export default function FixedAsset() {
                         </Col>
 
                         <Col span={fullWidth} lg={halfWidth}>
-                            <Form.Item dependencies={["purchaseValue"]} label="Depreciacion Acumulada" name="accumulatedDepreciation" rules={[rules.required("Depreciacion Acumulada"), rules.min(1), rules.lesserOrEqualThan("purchaseValue", "La depreciacion acumulada debe ser menor a")]} validateFirst>
+                            <Form.Item dependencies={["purchaseValue"]} label="Valor de Depreciacion" name="accumulatedDepreciation" rules={[rules.required("Valor de Depreciacion"), rules.min(1), rules.lesserOrEqualThan("purchaseValue", "El valor de depreciacion debe ser menor o igual a")]} validateFirst>
                                 {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" className="w-100" />}
                             </Form.Item>
                         </Col>
