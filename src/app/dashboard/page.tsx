@@ -7,7 +7,7 @@ import {
     DesktopOutlined,
 } from "@ant-design/icons";
 import { Card, Col, Row, Skeleton, Statistic, Typography } from "antd";
-import useDashboard from "./dashboard/useDashboard";
+import useDashboard from "./useDashboard";
 
 const { Title, Paragraph } = Typography;
 
@@ -18,7 +18,7 @@ export default function Dashboard() {
     return (
         <div style={{ padding: 10 }}>
 
-            <Title level={2}>Activos Fijos</Title>
+            <Title level={2}>Dashboard</Title>
 
             <Paragraph type="secondary">
                 Bienvenido al Sistema de Gestión de Activos Fijos.
