@@ -5,7 +5,7 @@ import { Button, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Select, 
 import { useState } from "react";
 import useFixedAsset from "./useFixedAsset";
 import Table, { ColumnsType } from "antd/es/table";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { CalculatorOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { rules } from "@/rules";
 import TextArea from "antd/es/input/TextArea";
 import dayjs from "dayjs";
@@ -47,8 +47,9 @@ export default function FixedAsset() {
     } = useFixedAsset();
 
     const [form] = Form.useForm();
-    const [isEditLoading, setIsEditLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [isEditLoading, setIsEditLoading] = useState(false);
+    const [depreciationModalOpen, setDepreciationModalOpen] = useState(false);
 
     const columns: ColumnsType<FixedAssetDto> = [
         {
@@ -101,6 +102,7 @@ export default function FixedAsset() {
             key: "actions",
             render: (_, record: FixedAssetDto) => (
                 <Space>
+                    <Button color="green" variant="solid" icon={<CalculatorOutlined />} onClick={async () => setDepreciationModalOpen(true)} />
                     <Button color="yellow" variant="solid" icon={<EditOutlined style={{ color: "black" }} />} onClick={async () => await onEdit(record.id!)} />
                     <Button type="primary" danger icon={<DeleteOutlined />} onClick={() => deleteById(record.id!)} />
                 </Space>
@@ -158,8 +160,11 @@ export default function FixedAsset() {
                     <Button key="save" type="primary" disabled={isEditLoading} onClick={() => form.submit()}>
                         Guardar
                     </Button >,
-                ]
-                }
+                ]}
+                classNames={{
+                    body: "scrollable-modal",
+                }}
+                getContainer={false}
             >
                 <Form form={form} initialValues={newFixedAsset} layout="vertical" onFinish={onFinish}>
                     <Row gutter={gutter}>
@@ -228,7 +233,25 @@ export default function FixedAsset() {
                         </Col>
                     </Row>
                 </Form>
-            </Modal >
+            </Modal>
+
+            <Modal
+                title={
+                    <h3 className="mt-2" style={{ textAlign: "center" }}>
+                        Depreciacion Acumulada
+                    </h3>
+                }
+                open={depreciationModalOpen}
+                onCancel={() => setDepreciationModalOpen(false)}
+                footer={null}
+                classNames={{
+                    body: "scrollable-modal",
+                }}
+            >
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
 
             <Table
                 rowKey="id"
