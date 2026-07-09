@@ -170,6 +170,9 @@ export default function EmployeesPage() {
                         Guardar
                     </Button>
                 ]}
+                classNames={{
+                    body: "scrollable-modal",
+                }}
             >
                 <Form
                     form={form}

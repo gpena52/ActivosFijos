@@ -102,6 +102,9 @@ export default function Deparment() {
                     </Button >,
                 ]
                 }
+                classNames={{
+                    body: "scrollable-modal",
+                }}
             >
                 <Form form={form} initialValues={newDepartment} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>

@@ -127,6 +127,9 @@ export default function AssetType() {
                     </Button >,
                 ]
                 }
+                classNames={{
+                    body: "scrollable-modal",
+                }}
             >
                 <Form form={form} initialValues={newAssetType} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>

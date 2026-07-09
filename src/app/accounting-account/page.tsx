@@ -110,6 +110,9 @@ export default function AccountingAccount() {
                     </Button >,
                 ]
                 }
+                classNames={{
+                    body: "scrollable-modal",
+                }}
             >
                 <Form form={form} initialValues={newAccountingAccount} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>
