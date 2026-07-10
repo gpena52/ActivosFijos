@@ -60,16 +60,17 @@ export default function FixedAsset() {
     const [depreciationModalOpen, setDepreciationModalOpen] = useState(false);
     const [isCalculatingDepreciation, setIsCalculatingDepreciation] = useState(false);
     const [currentFixedAsset, setCurrentFixedAsset] = useState<FixedAssetDto | null>(null);
+    const [accumulatedDepreciationValues, setAccumulatedDepreciationValues] = useState<DepreciationFormValues[]>([]);
 
-    const accumulatedDepreciationValues = useMemo(() => {
+    const calculateAccumulatedDepreciationValues = async (fixedAsset: FixedAssetDto) => {
         setIsCalculatingDepreciation(true);
 
         const calculatedValues: DepreciationFormValues[] = [];
 
-        let purchaseValue = Number(currentFixedAsset?.purchaseValue ?? 0);
-        let depreciationValue = Number(currentFixedAsset?.accumulatedDepreciation ?? 0);
+        let purchaseValue = Number(fixedAsset.purchaseValue ?? 0);
+        let depreciationValue = Number(fixedAsset.accumulatedDepreciation ?? 0);
         let currentValue = 0;
-        let currentDate = currentFixedAsset?.registrationDate ? new Date(currentFixedAsset.registrationDate) : new Date();
+        let currentDate = fixedAsset?.registrationDate ? new Date(fixedAsset.registrationDate) : new Date();
 
         while (purchaseValue > currentValue) {
             currentValue += depreciationValue;
@@ -77,18 +78,20 @@ export default function FixedAsset() {
             if (purchaseValue < currentValue) currentValue = purchaseValue;
 
             calculatedValues.push({
-                depreciationDate: currentDate,
+                depreciationDate: new Date(currentDate),
                 purchaseValue: purchaseValue,
                 accumulatedDepreciation: currentValue
             });
 
-            currentDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1));
+            currentDate.setMonth(currentDate.getMonth() + 1);
+
+            await new Promise(resolve => setTimeout(resolve, 0));
         }
 
         setIsCalculatingDepreciation(false);
 
         return calculatedValues
-    }, [currentFixedAsset])
+    }
 
     const accumulatedDepreciationColumns: ColumnsType<DepreciationFormValues> = [
         {
@@ -162,7 +165,7 @@ export default function FixedAsset() {
             key: "actions",
             render: (_, record: FixedAssetDto) => (
                 <Space>
-                    <Button color="green" variant="solid" icon={<CalculatorOutlined />} onClick={() => onDepreciationModalOpen(record)} />
+                    <Button color="green" variant="solid" icon={<CalculatorOutlined />} onClick={async () => await onDepreciationModalOpen(record)} />
                     <Button color="yellow" variant="solid" icon={<EditOutlined style={{ color: "black" }} />} onClick={async () => await onEdit(record.id!)} />
                     <Button type="primary" danger icon={<DeleteOutlined />} onClick={() => deleteById(record.id!)} />
                 </Space>
@@ -201,9 +204,10 @@ export default function FixedAsset() {
         clearForm();
     }
 
-    const onDepreciationModalOpen = (fixedAsset: FixedAssetDto) => {
+    const onDepreciationModalOpen = async (fixedAsset: FixedAssetDto) => {
         setDepreciationModalOpen(true);
         setCurrentFixedAsset(fixedAsset);
+        setAccumulatedDepreciationValues(await calculateAccumulatedDepreciationValues(fixedAsset));
     }
 
     const onDepreciationModalClose = () => {
@@ -212,6 +216,8 @@ export default function FixedAsset() {
         tableRef.current?.scrollTo({
             top: 0,
         });
+
+        setAccumulatedDepreciationValues([])
     };
 
     return (
