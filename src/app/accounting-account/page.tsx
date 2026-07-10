@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Form, Input, Modal, Select, Skeleton, Space } from "antd";
+import { Button, Form, Input, Modal, Select, Skeleton, Space, Typography } from "antd";
 import useAccountingAccount from "./useAccountingAccount";
 import Table, { ColumnsType } from "antd/es/table";
 import { AccountingAccountDto } from "@/dtos";
@@ -95,9 +95,9 @@ export default function AccountingAccount() {
 
             <Modal
                 title={
-                    <h3 className="mt-2" style={{ textAlign: "center" }}>
+                    <Typography.Title level={4} className="text-center mt-2">
                         Llene los campos
-                    </h3>
+                    </Typography.Title>
                 }
                 open={modalOpen}
                 onCancel={onCancel}
@@ -110,6 +110,9 @@ export default function AccountingAccount() {
                     </Button >,
                 ]
                 }
+                classNames={{
+                    body: "scrollable-modal",
+                }}
             >
                 <Form form={form} initialValues={newAccountingAccount} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>

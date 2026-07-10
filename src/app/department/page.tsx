@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Form, Input, Modal, Skeleton, Space } from "antd";
+import { Button, Form, Input, Modal, Skeleton, Space, Typography } from "antd";
 import useDeparment from "./useDepartment";
 import Table, { ColumnsType } from "antd/es/table";
 import { DepartmentDto } from "@/dtos";
@@ -87,9 +87,9 @@ export default function Deparment() {
 
             <Modal
                 title={
-                    <h3 className="mt-2" style={{ textAlign: "center" }}>
+                    <Typography.Title level={4} className="text-center mt-2">
                         Llene los campos
-                    </h3>
+                    </Typography.Title>
                 }
                 open={modalOpen}
                 onCancel={onCancel}
@@ -102,6 +102,9 @@ export default function Deparment() {
                     </Button >,
                 ]
                 }
+                classNames={{
+                    body: "scrollable-modal",
+                }}
             >
                 <Form form={form} initialValues={newDepartment} layout="vertical" onFinish={onFinish}>
                     <Form.Item name="id" hidden>

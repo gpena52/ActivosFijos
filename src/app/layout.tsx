@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import "./globals.css";
-import { Montserrat, Poppins } from "next/font/google";
+import "./globals.scss";
+import { Poppins } from "next/font/google";
 import Providers from "./providers";
 import AppLayout from "@/components/layout/AppLayout";
 import { App as AntdApp } from "antd";
@@ -27,13 +27,13 @@ export default function RootLayout({
     <html lang="es" className={poppins.className}>
       <body>
         <AntdRegistry>
-  <Providers>
-    <AntdApp>
-      <NotificationProvider />
-      <AppLayout>{children}</AppLayout>
-    </AntdApp>
-  </Providers>
-  </AntdRegistry>
+          <Providers>
+            <AntdApp>
+              <NotificationProvider />
+              <AppLayout>{children}</AppLayout>
+            </AntdApp>
+          </Providers>
+        </AntdRegistry>
       </body>
     </html>
   );

@@ -30,6 +30,7 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "prisma": "^7.8.0",
+    "sass": "^1.101.0",
     "typescript": "latest"
   }
 }

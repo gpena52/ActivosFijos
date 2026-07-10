@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 html,
 body {
   margin: 0;
@@ -364,4 +366,22 @@ body {
 
 .w-100 {
   width: 100% !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.modal-height {
+  max-height: $modal-max-height !important;
+}
+
+.scrollable-modal {
+  @extend .modal-height;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.normal-title {
+  font-weight: 400 !important;
 }

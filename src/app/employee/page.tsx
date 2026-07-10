@@ -23,6 +23,8 @@ import { PersonType } from "@/generated/prisma/enums";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { rules } from "@/rules";
 
+const dateFormat = 'DD-MM-YYYY';
+
 const newEmployee: EmployeeDto = {
     id: undefined,
     name: "",
@@ -156,9 +158,9 @@ export default function EmployeesPage() {
             <Modal
 
                 title={
-                    <h3 className="mt-2" style={{ textAlign: "center" }}>
+                    <Typography.Title level={4} className="text-center mt-2">
                         Llene los campos
-                    </h3>
+                    </Typography.Title>
                 }
                 open={modalOpen}
                 onCancel={onCancel}
@@ -170,6 +172,9 @@ export default function EmployeesPage() {
                         Guardar
                     </Button>
                 ]}
+                classNames={{
+                    body: "scrollable-modal",
+                }}
             >
                 <Form
                     form={form}
@@ -242,7 +247,7 @@ export default function EmployeesPage() {
                     >
                         {isEditLoading
                             ? <Skeleton.Input active block />
-                            : <DatePicker style={{ width: "100%" }} placeholder="Seleccione una Fecha de Ingreso" />
+                            : <DatePicker style={{ width: "100%" }} placeholder="Seleccione una Fecha de Ingreso" format={dateFormat} />
                         }
                     </Form.Item>
 
