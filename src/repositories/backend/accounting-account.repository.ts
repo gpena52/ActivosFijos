@@ -13,12 +13,12 @@ export class AccountingAccountRepository {
                     }
                 })
             },
-            orderBy: {
-                ...(accountTypes.length !== 0
-                    ? { accountNumber: "asc" }
-                    : { accountType: "asc" }
-                )
-            }
+            orderBy: (
+                accountTypes.length === 0
+                    ? [{ accountType: "asc" }, { accountNumber: "asc" }]
+                    : [{ accountNumber: "asc" }]
+            )
+
         });
 
         return accountingAccounts;

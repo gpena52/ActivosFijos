@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import "./globals.scss";
+import "./styles/globals.scss";
 import { Poppins } from "next/font/google";
 import Providers from "./providers";
 import AppLayout from "@/components/layout/AppLayout";
