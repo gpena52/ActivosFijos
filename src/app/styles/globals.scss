@@ -1,4 +1,4 @@
-@import './variables.scss';
+@use './variables.scss';
 
 html,
 body {
@@ -373,7 +373,7 @@ body {
 }
 
 .modal-height {
-  max-height: $modal-max-height !important;
+  max-height: variables.$modal-max-height !important;
 }
 
 .scrollable-modal {
