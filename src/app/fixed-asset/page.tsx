@@ -355,7 +355,7 @@ export default function FixedAsset() {
                     dataSource={accumulatedDepreciationValues}
                     pagination={false}
                     loading={isCalculatingDepreciation}
-                    scroll={{ x: true, y: "calc(100vh - 250px)" }}
+                    scroll={{ x: true, y: "55vh" }}
                 />
             </Modal>
 
