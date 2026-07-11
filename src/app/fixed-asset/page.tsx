@@ -81,7 +81,7 @@ export default function FixedAsset() {
             calculatedValues.push({
                 depreciationDate: new Date(currentDate),
                 purchaseValue: purchaseValue,
-                accumulatedDepreciation: currentValue
+                accumulatedDepreciation: Math.round(currentValue * 100) / 100
             });
 
             currentDate.setMonth(currentDate.getMonth() + 1);
