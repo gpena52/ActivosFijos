@@ -53,6 +53,7 @@ export default function FixedAsset() {
     } = useFixedAsset();
 
     const tableRef = useRef<GetRef<typeof Table>>(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const [form] = Form.useForm();
     const [modalOpen, setModalOpen] = useState(false);
@@ -62,7 +63,7 @@ export default function FixedAsset() {
     const [currentFixedAsset, setCurrentFixedAsset] = useState<FixedAssetDto | null>(null);
     const [accumulatedDepreciationValues, setAccumulatedDepreciationValues] = useState<DepreciationFormValues[]>([]);
 
-    const calculateAccumulatedDepreciationValues = async (fixedAsset: FixedAssetDto) => {
+    const calculateAccumulatedDepreciationValues = async (fixedAsset: FixedAssetDto, signal: AbortSignal) => {
         setIsCalculatingDepreciation(true);
 
         const calculatedValues: DepreciationFormValues[] = [];
@@ -86,6 +87,7 @@ export default function FixedAsset() {
             currentDate.setMonth(currentDate.getMonth() + 1);
 
             await new Promise(resolve => setTimeout(resolve, 0));
+            signal.throwIfAborted();
         }
 
         setIsCalculatingDepreciation(false);
@@ -205,12 +207,23 @@ export default function FixedAsset() {
     }
 
     const onDepreciationModalOpen = async (fixedAsset: FixedAssetDto) => {
-        setDepreciationModalOpen(true);
-        setCurrentFixedAsset(fixedAsset);
-        setAccumulatedDepreciationValues(await calculateAccumulatedDepreciationValues(fixedAsset));
+        try {
+            setDepreciationModalOpen(true);
+            setCurrentFixedAsset(fixedAsset);
+            abortControllerRef.current = new AbortController();
+            setAccumulatedDepreciationValues(await calculateAccumulatedDepreciationValues(fixedAsset, abortControllerRef.current.signal));
+        } catch (err) {
+            if (err instanceof DOMException && err.name === "AbortError") {
+                // Expected cancellation.
+                return;
+            }
+
+            throw err;
+        }
     }
 
     const onDepreciationModalClose = () => {
+        abortControllerRef.current?.abort();
         setDepreciationModalOpen(false);
 
         tableRef.current?.scrollTo({
