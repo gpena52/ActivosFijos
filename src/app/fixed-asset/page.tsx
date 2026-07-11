@@ -24,6 +24,8 @@ const gutter = 16;
 const fullWidth = 24;
 const halfWidth = 12;
 const dateFormat = 'DD-MM-YYYY';
+const precision = 2;
+const step = 0.01;
 
 const newFixedAsset: FixedAssetFormValues = {
     id: undefined,
@@ -308,13 +310,13 @@ export default function FixedAsset() {
 
                         <Col span={fullWidth} lg={halfWidth}>
                             <Form.Item dependencies={["accumulatedDepreciation"]} label="Valor de Compra" name="purchaseValue" rules={[rules.required("Valor de Compra"), rules.min(1), rules.greaterOrEqualThan("accumulatedDepreciation", "El valor de compra debe ser mayor o igual a")]} validateFirst>
-                                {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" className="w-100" />}
+                                {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" precision={precision} step={step} className="w-100" />}
                             </Form.Item>
                         </Col>
 
                         <Col span={fullWidth} lg={halfWidth}>
                             <Form.Item dependencies={["purchaseValue"]} label="Valor de Depreciacion" name="accumulatedDepreciation" rules={[rules.required("Valor de Depreciacion"), rules.min(1), rules.lesserOrEqualThan("purchaseValue", "El valor de depreciacion debe ser menor o igual a")]} validateFirst>
-                                {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" className="w-100" />}
+                                {isEditLoading ? <Skeleton.Input active block /> : <InputNumber type="number" precision={precision} step={step} className="w-100" />}
                             </Form.Item>
                         </Col>
 
