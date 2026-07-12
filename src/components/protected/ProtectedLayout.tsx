@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const { Content } = Layout;
 
-export default function AppLayout({
+export default function ProtectedLayout({
     children,
 }: {
     children: React.ReactNode;

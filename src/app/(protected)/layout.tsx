@@ -1,22 +1,12 @@
 import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import "./styles/globals.scss";
-import { Poppins } from "next/font/google";
+import "../styles/globals.scss"
 import Providers from "./providers";
-import AppLayout from "@/components/layout/AppLayout";
+import ProtectedLayout from "@/components/protected/ProtectedLayout";
 import { App as AntdApp } from "antd";
 import { NotificationProvider } from "@/components/NotificationProvider";
-
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-});
-
-export const metadata: Metadata = {
-  title: "Activos Fijos",
-  description: "Gestion de activos fijos con Next.js, TypeScript y Ant Design"
-};
+import { poppins } from "@/constants/poppins";
+export { metadata } from "@/constants/metadata";
 
 export default function RootLayout({
   children
@@ -30,7 +20,7 @@ export default function RootLayout({
           <Providers>
             <AntdApp>
               <NotificationProvider />
-              <AppLayout>{children}</AppLayout>
+              <ProtectedLayout>{children}</ProtectedLayout>
             </AntdApp>
           </Providers>
         </AntdRegistry>
