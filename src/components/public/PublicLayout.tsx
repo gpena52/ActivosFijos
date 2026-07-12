@@ -10,27 +10,12 @@ export default function PublicLayout({
     const { token } = theme.useToken();
 
     return (
-        <Flex
-            justify="center"
-            align="center"
+        <div
             style={{
                 backgroundColor: token.colorPrimary,
-                minHeight: "100vh"
             }}
         >
-            <Card
-                title="User Profile"
-                style={{
-                    width: 350
-                }}
-                styles={{
-                    title: {
-                        textAlign: "center",
-                    },
-                }}
-            >
-                {children}
-            </Card>
-        </Flex>
+            {children}
+        </div>
     )
 }
