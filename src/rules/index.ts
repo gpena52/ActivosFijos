@@ -10,7 +10,7 @@ export const rules = {
 
     email: {
         type: "email" as const,
-        message: "Ingrese un email valido",
+        message: "Ingrese un correo valido",
     },
 
     number: {
@@ -65,5 +65,20 @@ export const rules = {
 
                 throw new Error(`${message} ${otherValue}`);
             },
+        }),
+
+    equalToField: (
+        otherField: string,
+        message: string,
+    ): Rule =>
+        ({ getFieldValue }) => ({
+            async validator(_, value) {
+                if (value === getFieldValue(otherField)) {
+                    return Promise.resolve();
+                }
+                return Promise.reject(
+                    new Error(message)
+                );
+            }
         })
 };
