@@ -1,22 +1,11 @@
+import { apiHandler } from "@/errors/apiHandler";
 import { DashboardService } from "@/services/backend/dashboard.service";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const service = new DashboardService();
 
-export async function GET() {
+export const GET = apiHandler(async (req: NextRequest) => {
+    const data = await service.getStatistics();
 
-    try {
-
-        const data = await service.getStatistics();
-
-        return NextResponse.json(data);
-
-    } catch {
-
-        return NextResponse.json(
-            { message: "Error al obtener las estadísticas." },
-            { status: 500 }
-        );
-    }
-
-}
+    return NextResponse.json(data);
+})

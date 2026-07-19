@@ -4,6 +4,9 @@ import CenteredCard from "@/components/public/CenteredCard";
 import { rules } from "@/rules";
 import { Button, Form, Input } from "antd";
 import { useState } from "react";
+import useRegister from "./useRegister";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const title = "Registre su usuario"
 
@@ -17,12 +20,24 @@ interface FormRegisterDto {
 
 export default function Register() {
 
+    const {
+        create
+    } = useRegister();
+
+    const router = useRouter();
+
     const [form] = Form.useForm();
     const [validatePassword, setValidatePassword] = useState(false);
 
-    const onFinish = (values: FormRegisterDto) => {
-        console.log(values);
+    const onFinish = async (values: FormRegisterDto) => {
+        await create({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            password: values.password
+        })
         clearForm();
+        router.push("/")
     };
 
     const clearForm = () => {
@@ -74,6 +89,7 @@ export default function Register() {
                     <Form.Item
                         label="Confirmar Contraseña"
                         name="confirmPassword"
+                        dependencies={["password"]}
                         rules={[rules.required("Confirmar Contraseña"), validatePassword ? rules.equalToField("password", "Las contraseñas no coinciden") : {}]}
                         validateFirst
                     >
@@ -84,6 +100,9 @@ export default function Register() {
                         Registrarse
                     </Button>
                 </Form>
+                <Link href="/login" className="w-full">
+                    <div className="text-center mt-4">¿Ya tienes cuenta? Inicia Sesión</div>
+                </Link>
             </CenteredCard>
         </>
     );

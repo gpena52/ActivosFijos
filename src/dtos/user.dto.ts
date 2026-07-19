@@ -11,3 +11,17 @@ export interface UserDto {
     createdAt: Date;
     updatedAt: Date | null;
 }
+
+export interface CreateUserDto {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}
+
+export interface LoggedDto {
+    email: string;
+    firstName: string;
+    lastName: string;
+    role: Role;
+}

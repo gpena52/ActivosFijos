@@ -5,7 +5,7 @@ import { Rule } from "antd/es/form";
 export const rules = {
     required: (field: string) => ({
         required: true,
-        message: `${field} es requerido`,
+        message: `El campo ${field} es requerido`,
     }),
 
     email: {
