@@ -16,3 +16,8 @@ enum AccountType {
   REVENUE
   EXPENSE
 }
+
+enum Role {
+  ADMIN
+  USER
+}

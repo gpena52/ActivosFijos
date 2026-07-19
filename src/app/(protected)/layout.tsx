@@ -1,28 +1,21 @@
-import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import "./styles/globals.scss";
-import { Poppins } from "next/font/google";
+import "../styles/globals.scss"
 import Providers from "./providers";
-import AppLayout from "@/components/layout/AppLayout";
+import ProtectedLayout from "@/components/protected/ProtectedLayout";
 import { App as AntdApp } from "antd";
 import { NotificationProvider } from "@/components/NotificationProvider";
+import { poppins } from "@/constants/poppins";
+import { requireAuth } from "@/utils/auth";
+import { LoggedDto } from "@/dtos";
+export { metadata } from "@/constants/metadata";
 
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-});
-
-export const metadata: Metadata = {
-  title: "Activos Fijos",
-  description: "Gestion de activos fijos con Next.js, TypeScript y Ant Design"
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await requireAuth();
+
   return (
     <html lang="es" className={poppins.className}>
       <body>
@@ -30,7 +23,7 @@ export default function RootLayout({
           <Providers>
             <AntdApp>
               <NotificationProvider />
-              <AppLayout>{children}</AppLayout>
+              <ProtectedLayout user={session.user as LoggedDto}>{children}</ProtectedLayout>
             </AntdApp>
           </Providers>
         </AntdRegistry>

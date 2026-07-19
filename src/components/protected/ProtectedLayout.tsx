@@ -5,23 +5,27 @@ import Sidebar from "./Sidebar";
 import AppHeader from "./Header";
 import AppFooter from "./Footer";
 import { useState } from "react";
+import { LoggedDto } from "@/dtos";
 
 const { Content } = Layout;
 
-export default function AppLayout({
+export default function ProtectedLayout({
+    user,
     children,
 }: {
+    user: LoggedDto;
     children: React.ReactNode;
 }) {
     const [collapsed, setCollapsed] = useState(false);
     const [headerTitle, setHeaderTitle] = useState("");
+
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sidebar collapsed={collapsed} setHeaderTitle={setHeaderTitle} />
 
             <Layout>
-                <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} headerTitle={headerTitle} />
+                <AppHeader collapsed={collapsed} user={user} setCollapsed={setCollapsed} headerTitle={headerTitle} />
 
                 <Content
                     style={{

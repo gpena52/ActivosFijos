@@ -5,12 +5,12 @@ import { Rule } from "antd/es/form";
 export const rules = {
     required: (field: string) => ({
         required: true,
-        message: `${field} es requerido`,
+        message: `El campo ${field} es requerido`,
     }),
 
     email: {
         type: "email" as const,
-        message: "Ingrese un email valido",
+        message: "Ingrese un correo valido",
     },
 
     number: {
@@ -65,5 +65,20 @@ export const rules = {
 
                 throw new Error(`${message} ${otherValue}`);
             },
+        }),
+
+    equalToField: (
+        otherField: string,
+        message: string,
+    ): Rule =>
+        ({ getFieldValue }) => ({
+            async validator(_, value) {
+                if (value === getFieldValue(otherField)) {
+                    return Promise.resolve();
+                }
+                return Promise.reject(
+                    new Error(message)
+                );
+            }
         })
 };

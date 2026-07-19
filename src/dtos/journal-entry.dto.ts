@@ -1,4 +1,4 @@
-import type { MovementType, Prisma } from "@/generated/prisma";
+import type { MovementType, Prisma } from "@/generated/prisma/client";
 
 export interface JournalEntryDto {
     id?: number;

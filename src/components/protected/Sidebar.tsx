@@ -29,7 +29,7 @@ interface AppRoute {
 
 const routes: AppRoute[] = [
     {
-        key: "/",
+        key: "/dashboard",
         icon: <DashboardOutlined />,
         label: "Dashboard",
     },

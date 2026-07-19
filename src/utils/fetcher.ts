@@ -12,11 +12,6 @@ export async function fetcher<T>(
         ...options,
     });
 
-    // if (!response.ok) {
-    //     const error = await response.text();
-    //     throw new Error(error || "Request failed");
-    // }
-
     return {
         data: await response.json(),
         ok: response.ok,
