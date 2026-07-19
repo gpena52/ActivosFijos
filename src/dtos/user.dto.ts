@@ -19,7 +19,13 @@ export interface CreateUserDto {
     lastName: string;
 }
 
+export interface LoginDto {
+    email: string;
+    password: string;
+}
+
 export interface LoggedDto {
+    id: string;
     email: string;
     firstName: string;
     lastName: string;

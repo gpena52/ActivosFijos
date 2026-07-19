@@ -5,13 +5,16 @@ import { App as AntdApp } from "antd";
 import { poppins } from "@/constants/poppins";
 import "../styles/globals.scss"
 import PublicLayout from "@/components/public/PublicLayout";
+import { notRequireAuth } from "@/utils/auth";
 export { metadata } from "@/constants/metadata";
 
-export default function RootLayout({
+export default async function RootLayout({
     children
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const session = await notRequireAuth();
+
     return (
         <html lang="es" className={poppins.className}>
             <body>

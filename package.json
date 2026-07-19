@@ -19,6 +19,7 @@
     "bcrypt": "^6.0.0",
     "dayjs": "^1.11.21",
     "next": "latest",
+    "next-auth": "^4.24.14",
     "pg": "^8.22.0",
     "react": "latest",
     "react-dom": "latest",
