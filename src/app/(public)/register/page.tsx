@@ -21,7 +21,7 @@ interface FormRegisterDto {
 export default function Register() {
 
     const {
-        create
+        createAndLogin
     } = useRegister();
 
     const router = useRouter();
@@ -30,14 +30,12 @@ export default function Register() {
     const [validatePassword, setValidatePassword] = useState(false);
 
     const onFinish = async (values: FormRegisterDto) => {
-        await create({
+        await createAndLogin({
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
             password: values.password
         })
-        clearForm();
-        router.push("/")
     };
 
     const clearForm = () => {

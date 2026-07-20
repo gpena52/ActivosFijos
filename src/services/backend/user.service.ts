@@ -1,4 +1,4 @@
-import { CreateUserDto, LoggedDto, LoginDto } from "@/dtos";
+import { CreateUserDto, LoggedDto, LoginDto, UserDto } from "@/dtos";
 import { ApiError } from "@/errors/apiError";
 import { UserRepository } from "@/repositories/backend/user.repository";
 import { createUserSchema, loginSchema } from "@/validation/user.schema";
@@ -16,7 +16,7 @@ export class UserService {
         return repository.login(user);
     }
 
-    async create(user: CreateUserDto): Promise<LoggedDto> {
+    async create(user: CreateUserDto): Promise<UserDto> {
 
         const validated = createUserSchema.safeParse(user);
 

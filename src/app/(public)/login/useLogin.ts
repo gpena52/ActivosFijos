@@ -1,5 +1,5 @@
 import { LoginDto } from "@/dtos";
-import { signIn, SignInResponse, signOut } from "next-auth/react";
+import { signIn, SignInResponse } from "next-auth/react";
 
 export default function useLogin() {
     const login = async (user: LoginDto): Promise<SignInResponse | undefined> => {
@@ -8,8 +8,6 @@ export default function useLogin() {
             password: user.password,
             redirect: false,
         });
-
-        // await signOut();
 
         return result;
     }
