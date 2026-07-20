@@ -1,10 +1,6 @@
+import { Handler } from "@/types/handles";
 import { NextRequest, NextResponse } from "next/server";
 import { ApiError } from "./apiError";
-
-type Handler<T = unknown> = (
-    req: NextRequest,
-    context: T
-) => Promise<NextResponse>;
 
 export function apiHandler<T>(handler: Handler<T>): Handler<T> {
     return async (req, context) => {

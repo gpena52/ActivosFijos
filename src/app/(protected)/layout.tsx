@@ -7,6 +7,8 @@ import { NotificationProvider } from "@/components/NotificationProvider";
 import { poppins } from "@/constants/poppins";
 import { requireAuth } from "@/utils/auth";
 import { LoggedDto } from "@/dtos";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth/config";
 export { metadata } from "@/constants/metadata";
 
 export default async function RootLayout({
@@ -14,7 +16,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await requireAuth();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="es" className={poppins.className}>
@@ -23,7 +25,7 @@ export default async function RootLayout({
           <Providers>
             <AntdApp>
               <NotificationProvider />
-              <ProtectedLayout user={session.user as LoggedDto}>{children}</ProtectedLayout>
+              <ProtectedLayout user={session!.user as LoggedDto}>{children}</ProtectedLayout>
             </AntdApp>
           </Providers>
         </AntdRegistry>

@@ -13,8 +13,6 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = await notRequireAuth();
-
     return (
         <html lang="es" className={poppins.className}>
             <body>
