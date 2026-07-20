@@ -17,7 +17,7 @@ export function withAuth<T>(handler: Handler<T>) {
 
         if (!client) {
             return NextResponse.json(
-                { error: "Unauthorized" },
+                { message: "Unauthorized" },
                 { status: 401 }
             );
         }

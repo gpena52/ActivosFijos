@@ -26,7 +26,6 @@ export const rules = {
 
     indentification: {
         validator: (_: any, value: string) => {
-            console.log({ _, value })
             if (!validateIdentification(value)) {
                 return Promise.reject("Ingrese una cedula valida")
             }

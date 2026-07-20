@@ -12,8 +12,6 @@ export async function proxy(req: NextRequest) {
 
     const { pathname } = req.nextUrl;
 
-    console.log(pathname)
-
     const isLoggedIn = !!token;
     const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 

@@ -8,8 +8,6 @@ export function apiHandler<T>(handler: Handler<T>): Handler<T> {
             return await handler(req, context);
         } catch (error: any) {
 
-            console.log(error)
-
             if (error instanceof ApiError) {
                 return NextResponse.json(
                     { message: error.message },

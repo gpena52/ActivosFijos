@@ -7,6 +7,7 @@ export async function fetcher<T>(
     const response = await fetch(url, {
         headers: {
             "Content-Type": "application/json",
+            "X-API-KEY": process.env.NEXT_PUBLIC_API_KEY!,
             ...options?.headers,
         },
         ...options,
