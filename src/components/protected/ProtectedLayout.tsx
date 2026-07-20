@@ -21,7 +21,7 @@ export default function ProtectedLayout({
 
 
     return (
-        <Layout style={{ minHeight: "100vh" }}>
+        <Layout style={{ minHeight: "100vh" }} hasSider>
             <Sidebar collapsed={collapsed} setHeaderTitle={setHeaderTitle} />
 
             <Layout>
