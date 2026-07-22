@@ -1,6 +1,6 @@
 export interface ErrorResponseDto<T> {
     data: T;
     ok: boolean;
-    message: string;
+    errorMessage: string;
     code: number;
 }
