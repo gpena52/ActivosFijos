@@ -38,7 +38,7 @@ export default function useRegister() {
 
             notify.error(
                 "Error",
-                response.message
+                response.errorMessage
             );
 
             return;
