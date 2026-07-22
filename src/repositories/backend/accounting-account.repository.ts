@@ -1,4 +1,5 @@
 import { AccountingAccountDto } from "@/dtos/accounting-account.dto";
+import { ApiError } from "@/errors/apiError";
 import { AccountType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
@@ -44,6 +45,26 @@ export class AccountingAccountRepository {
     }
 
     async delete(id: number): Promise<AccountingAccountDto> {
+        const accountingAccount = await prisma.accountingAccount.findUnique({
+            where: { id },
+            include: {
+                purchaseAssetTypes: {
+                    where: {
+                        status: true
+                    }
+                },
+                depreciationAssetTypes: {
+                    where: {
+                        status: true
+                    }
+                },
+            }
+        });
+
+        if ((accountingAccount?.purchaseAssetTypes.length ?? 0) > 0 || (accountingAccount?.depreciationAssetTypes.length ?? 0) > 0) {
+            throw new ApiError(400, "Esta cuenta tiene activos asociados, no puede ser eliminada");
+        }
+
         return prisma.accountingAccount.update({
             where: { id },
             data: { status: false },

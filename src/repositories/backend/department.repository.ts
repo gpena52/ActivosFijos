@@ -1,4 +1,5 @@
 import { DepartmentDto } from "@/dtos/department.dto";
+import { ApiError } from "@/errors/apiError";
 import { prisma } from "@/lib/prisma";
 
 export class DepartmentRepository {
@@ -35,6 +36,30 @@ export class DepartmentRepository {
     }
 
     async delete(id: number): Promise<DepartmentDto> {
+        const department = await prisma.department.findUnique({
+            where: { id },
+            include: {
+                assets: {
+                    where: {
+                        status: true
+                    }
+                },
+                employees: {
+                    where: {
+                        status: true
+                    }
+                }
+            }
+        });
+
+        if ((department?.assets.length ?? 0) > 0) {
+            throw new ApiError(400, "Este departamento tiene activos fijos asociados, no puede ser eliminado");
+        }
+
+        if ((department?.employees.length ?? 0) > 0) {
+            throw new ApiError(400, "Este departamento tiene empleados asociados, no puede ser eliminado");
+        }
+
         return prisma.department.update({
             where: { id },
             data: { status: false },

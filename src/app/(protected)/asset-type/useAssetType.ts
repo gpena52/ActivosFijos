@@ -92,7 +92,7 @@ export default function useAssetType() {
         if (!response.ok) {
             notify.error(
                 "Error",
-                response.message
+                response.errorMessage
             )
             return
         }

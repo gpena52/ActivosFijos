@@ -13,10 +13,12 @@ export async function fetcher<T>(
         ...options,
     });
 
+    const json = await response.json();
+
     return {
-        data: await response.json(),
+        data: json,
         ok: response.ok,
-        message: response.statusText,
+        errorMessage: !response.ok && json?.message,
         code: response.status,
     };
 }

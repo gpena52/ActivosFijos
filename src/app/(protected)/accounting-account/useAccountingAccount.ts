@@ -93,7 +93,7 @@ export default function useAccountingAccount() {
         } else if (!response.ok) {
             notify.error(
                 "Error",
-                response.message
+                response.errorMessage
             )
             return
         }

@@ -76,7 +76,7 @@ export default function useDeparment() {
         if (!response.ok) {
             notify.error(
                 "Error",
-                response.message
+                response.errorMessage
             )
             return
         }
