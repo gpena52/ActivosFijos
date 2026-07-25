@@ -47,7 +47,7 @@ export default function useRegister() {
         await signIn("credentials", {
             email: user.email,
             password: user.password,
-            redirectTo: "/dashboard",
+            redirectTo: "/dashboard"
         });
     };
 
