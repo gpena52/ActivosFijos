@@ -6,8 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const seconds = 60;
-const refreshMinutes = Number(process.env.NEXT_PUBLIC_REFRESH_MINUTES);
-console.log(refreshMinutes)
+const refreshMinutes = Number(process.env.NEXT_PUBLIC_EXPIRE_MINUTES);
 const interval = seconds * refreshMinutes;
 
 export default function Providers({
