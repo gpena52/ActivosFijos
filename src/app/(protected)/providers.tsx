@@ -3,14 +3,37 @@
 import AntdApp from "@/components/general/antd";
 import { App, ConfigProvider, theme } from "antd";
 import { SessionProvider } from "next-auth/react";
+import { useEffect, useState } from "react";
+
+const seconds = 60;
+const refreshMinutes = Number(process.env.NEXT_PUBLIC_EXPIRE_MINUTES);
+const interval = seconds * refreshMinutes;
 
 export default function Providers({
     children,
 }: {
     children: React.ReactNode;
 }) {
+
+    const [isVisible, setIsVisible] = useState(true);
+
+    useEffect(() => {
+        const handleVisibility = () => {
+            setIsVisible(document.visibilityState === 'visible');
+        };
+
+        document.addEventListener('visibilitychange', handleVisibility);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibility);
+        };
+    }, []);
+
     return (
-        <SessionProvider>
+        <SessionProvider
+            refetchInterval={isVisible ? interval : 0}
+            refetchOnWindowFocus={true}
+        >
             <ConfigProvider
                 theme={{
                     algorithm: theme.defaultAlgorithm,

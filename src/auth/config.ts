@@ -3,11 +3,15 @@ import { fetcher } from "@/utils/fetcher";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
+const seconds = 60;
+const expireMinutes = Number(process.env.NEXT_PUBLIC_EXPIRE_MINUTES);
+
 export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
 
     session: {
         strategy: "jwt",
+        maxAge: seconds * expireMinutes,
     },
 
     pages: {
