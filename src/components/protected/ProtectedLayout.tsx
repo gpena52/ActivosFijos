@@ -6,6 +6,7 @@ import AppHeader from "./Header";
 import AppFooter from "./Footer";
 import { useState } from "react";
 import { LoggedDto } from "@/dtos";
+import AuthGuard from "@/guards/AuthGuard";
 
 const { Content } = Layout;
 
@@ -35,6 +36,7 @@ export default function ProtectedLayout({
                         borderRadius: 8,
                     }}
                 >
+                    <AuthGuard />
                     {children}
                 </Content>
 
