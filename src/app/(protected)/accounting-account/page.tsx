@@ -6,9 +6,10 @@ import Table, { ColumnsType } from "antd/es/table";
 import { AccountingAccountDto } from "@/dtos";
 import { AccountType } from "@/generated/prisma/enums";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { rules } from "@/rules";
 import { accountTypeLabels } from "@/constants/enums";
+import DataFilters from "@/components/general/DataFilters";
 
 const newAccountingAccount: AccountingAccountDto = {
     id: undefined,
@@ -34,6 +35,28 @@ export default function AccountingAccount() {
     const [form] = Form.useForm();
     const [isEditLoading, setIsEditLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+
+    const [searchText, setSearchText] = useState("");
+    const [accountTypeFilter, setAccountTypeFilter] = useState<AccountType>();
+
+    const filteredAccountingAccounts = useMemo(() => {
+        const term = searchText.trim().toLowerCase();
+
+        return accountingAccounts.filter(account => {
+            const matchesSearch = !term ||
+                account.accountNumber?.toLowerCase().includes(term) ||
+                account.accountName?.toLowerCase().includes(term);
+
+            const matchesType = !accountTypeFilter || account.accountType === accountTypeFilter;
+
+            return matchesSearch && matchesType;
+        });
+    }, [accountingAccounts, searchText, accountTypeFilter]);
+
+    const onClearFilters = () => {
+        setSearchText("");
+        setAccountTypeFilter(undefined);
+    };
 
     const columns: ColumnsType<AccountingAccountDto> = [
         {
@@ -142,11 +165,30 @@ export default function AccountingAccount() {
                 </Form>
             </Modal >
 
+            <DataFilters
+                searchValue={searchText}
+                onSearchChange={setSearchText}
+                searchPlaceholder="Buscar por número o nombre"
+                selects={[
+                    {
+                        key: "accountType",
+                        placeholder: "Filtrar por tipo",
+                        value: accountTypeFilter,
+                        onChange: setAccountTypeFilter,
+                        options: Object.values(AccountType).map(accountType => ({
+                            label: accountTypeLabels[accountType],
+                            value: accountType
+                        }))
+                    }
+                ]}
+                onClear={onClearFilters}
+            />
+
             <Table
                 rowKey="id"
                 className="mt-5"
                 columns={columns}
-                dataSource={accountingAccounts}
+                dataSource={filteredAccountingAccounts}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}

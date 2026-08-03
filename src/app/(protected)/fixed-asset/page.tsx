@@ -8,7 +8,8 @@ import Table, { ColumnsType } from "antd/es/table";
 import { CalculatorOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { rules } from "@/rules";
 import TextArea from "antd/es/input/TextArea";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import DataFilters from "@/components/general/DataFilters";
 
 interface FixedAssetFormValues extends FixedAssetDto {
     dateValue?: dayjs.Dayjs;
@@ -64,6 +65,42 @@ export default function FixedAsset() {
     const [isCalculatingDepreciation, setIsCalculatingDepreciation] = useState(false);
     const [currentFixedAsset, setCurrentFixedAsset] = useState<FixedAssetDto | null>(null);
     const [accumulatedDepreciationValues, setAccumulatedDepreciationValues] = useState<DepreciationFormValues[]>([]);
+
+    const [searchText, setSearchText] = useState("");
+    const [departmentFilter, setDepartmentFilter] = useState<number>();
+    const [assetTypeFilter, setAssetTypeFilter] = useState<number>();
+    const [registrationDateRange, setRegistrationDateRange] = useState<[Dayjs, Dayjs] | null>(null);
+
+    const filteredFixedAssets = useMemo(() => {
+        const term = searchText.trim().toLowerCase();
+
+        return fixedAssets.filter(fixedAsset => {
+            const matchesSearch = !term ||
+                fixedAsset.name?.toLowerCase().includes(term) ||
+                fixedAsset.description?.toLowerCase().includes(term);
+
+            const matchesDepartment = !departmentFilter ||
+                fixedAsset.departmentId === departmentFilter;
+
+            const matchesAssetType = !assetTypeFilter ||
+                fixedAsset.assetTypeId === assetTypeFilter;
+
+            const matchesRegistrationDate = !registrationDateRange || (
+                fixedAsset.registrationDate !== undefined &&
+                dayjs(fixedAsset.registrationDate).valueOf() >= registrationDateRange[0].startOf("day").valueOf() &&
+                dayjs(fixedAsset.registrationDate).valueOf() <= registrationDateRange[1].endOf("day").valueOf()
+            );
+
+            return matchesSearch && matchesDepartment && matchesAssetType && matchesRegistrationDate;
+        });
+    }, [fixedAssets, searchText, departmentFilter, assetTypeFilter, registrationDateRange]);
+
+    const onClearFilters = () => {
+        setSearchText("");
+        setDepartmentFilter(undefined);
+        setAssetTypeFilter(undefined);
+        setRegistrationDateRange(null);
+    };
 
     const calculateAccumulatedDepreciationValues = async (fixedAsset: FixedAssetDto, signal: AbortSignal) => {
         setIsCalculatingDepreciation(true);
@@ -359,11 +396,45 @@ export default function FixedAsset() {
                 />
             </Modal>
 
+            <DataFilters
+                searchValue={searchText}
+                onSearchChange={setSearchText}
+                searchPlaceholder="Buscar por nombre o descripción"
+                selects={[
+                    {
+                        key: "department",
+                        placeholder: "Filtrar por departamento",
+                        value: departmentFilter,
+                        onChange: setDepartmentFilter,
+                        options: departments.map(department => ({
+                            label: department.name,
+                            value: department.id!
+                        }))
+                    },
+                    {
+                        key: "assetType",
+                        placeholder: "Filtrar por tipo de activo",
+                        value: assetTypeFilter,
+                        onChange: setAssetTypeFilter,
+                        options: assetTypes.map(assetType => ({
+                            label: assetType.name,
+                            value: assetType.id!
+                        }))
+                    }
+                ]}
+                dateRange={{
+                    value: registrationDateRange,
+                    onChange: setRegistrationDateRange,
+                    placeholder: ["Registro desde", "Registro hasta"]
+                }}
+                onClear={onClearFilters}
+            />
+
             <Table
                 rowKey="id"
                 className="mt-5"
                 columns={columns}
-                dataSource={fixedAssets}
+                dataSource={filteredFixedAssets}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}

@@ -2,13 +2,14 @@
 
 import { AssetTypeDto } from "@/dtos";
 import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Space, Typography } from "antd";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import useAssetType from "./useAssetType";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Table, { ColumnsType } from "antd/es/table";
 import TextArea from "antd/es/input/TextArea";
 import { rules } from "@/rules";
 import { AccountType } from "@/generated/prisma/enums";
+import DataFilters from "@/components/general/DataFilters";
 
 const newAssetType: AssetTypeDto = {
     id: undefined,
@@ -34,6 +35,34 @@ export default function AssetType() {
     const [form] = Form.useForm();
     const [isEditLoading, setIsEditLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+
+    const [searchText, setSearchText] = useState("");
+    const [purchaseAccountFilter, setPurchaseAccountFilter] = useState<number>();
+    const [depreciationAccountFilter, setDepreciationAccountFilter] = useState<number>();
+
+    const filteredAssetTypes = useMemo(() => {
+        const term = searchText.trim().toLowerCase();
+
+        return assetTypes.filter(assetType => {
+            const matchesSearch = !term ||
+                assetType.name?.toLowerCase().includes(term) ||
+                assetType.description?.toLowerCase().includes(term);
+
+            const matchesPurchaseAccount = !purchaseAccountFilter ||
+                assetType.purchaseAccountId === purchaseAccountFilter;
+
+            const matchesDepreciationAccount = !depreciationAccountFilter ||
+                assetType.depreciationAccountId === depreciationAccountFilter;
+
+            return matchesSearch && matchesPurchaseAccount && matchesDepreciationAccount;
+        });
+    }, [assetTypes, searchText, purchaseAccountFilter, depreciationAccountFilter]);
+
+    const onClearFilters = () => {
+        setSearchText("");
+        setPurchaseAccountFilter(undefined);
+        setDepreciationAccountFilter(undefined);
+    };
 
     const columns: ColumnsType<AssetTypeDto> = [
         {
@@ -164,11 +193,40 @@ export default function AssetType() {
                 </Form>
             </Modal >
 
+            <DataFilters
+                searchValue={searchText}
+                onSearchChange={setSearchText}
+                searchPlaceholder="Buscar por nombre o descripción"
+                selects={[
+                    {
+                        key: "purchaseAccount",
+                        placeholder: "Filtrar por cuenta de compra",
+                        value: purchaseAccountFilter,
+                        onChange: setPurchaseAccountFilter,
+                        options: accountingAccounts.map(account => ({
+                            label: `${account.accountNumber} - ${account.accountName}`,
+                            value: account.id!
+                        }))
+                    },
+                    {
+                        key: "depreciationAccount",
+                        placeholder: "Filtrar por cuenta de depreciación",
+                        value: depreciationAccountFilter,
+                        onChange: setDepreciationAccountFilter,
+                        options: accountingAccounts.map(account => ({
+                            label: `${account.accountNumber} - ${account.accountName}`,
+                            value: account.id!
+                        }))
+                    }
+                ]}
+                onClear={onClearFilters}
+            />
+
             <Table
                 rowKey="id"
                 className="mt-5"
                 columns={columns}
-                dataSource={assetTypes}
+                dataSource={filteredAssetTypes}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}

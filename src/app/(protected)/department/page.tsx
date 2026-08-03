@@ -5,9 +5,10 @@ import useDeparment from "./useDepartment";
 import Table, { ColumnsType } from "antd/es/table";
 import { DepartmentDto } from "@/dtos";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { rules } from "@/rules";
+import DataFilters from "@/components/general/DataFilters";
 
 const newDepartment: DepartmentDto = {
     id: undefined,
@@ -32,6 +33,23 @@ export default function Deparment() {
     const [form] = Form.useForm();
     const [isEditLoading, setIsEditLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+
+    const [searchText, setSearchText] = useState("");
+
+    const filteredDepartments = useMemo(() => {
+        const term = searchText.trim().toLowerCase();
+
+        if (!term) return departments;
+
+        return departments.filter(department =>
+            department.name?.toLowerCase().includes(term) ||
+            department.description?.toLowerCase().includes(term)
+        );
+    }, [departments, searchText]);
+
+    const onClearFilters = () => {
+        setSearchText("");
+    };
 
     const columns: ColumnsType<DepartmentDto> = [
         {
@@ -121,11 +139,18 @@ export default function Deparment() {
                 </Form>
             </Modal >
 
+            <DataFilters
+                searchValue={searchText}
+                onSearchChange={setSearchText}
+                searchPlaceholder="Buscar por nombre o descripción"
+                onClear={onClearFilters}
+            />
+
             <Table
                 rowKey="id"
                 className="mt-5"
                 columns={columns}
-                dataSource={departments}
+                dataSource={filteredDepartments}
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}

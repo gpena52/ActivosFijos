@@ -12,8 +12,8 @@ import {
     Typography
 } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
-import { useState } from "react";
-import dayjs from "dayjs";
+import { useMemo, useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
 
 import useEmployees from "./useEmployee";
 import useDeparment from "../department/useDepartment";
@@ -22,6 +22,7 @@ import { EmployeeDto } from "@/dtos";
 import { PersonType } from "@/generated/prisma/enums";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { rules } from "@/rules";
+import DataFilters from "@/components/general/DataFilters";
 
 const dateFormat = 'DD-MM-YYYY';
 
@@ -54,6 +55,42 @@ export default function EmployeesPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [isEditLoading, setIsEditLoading] = useState(false);
     const [validateIdentification, setValidateIdentification] = useState(false);
+
+    const [searchText, setSearchText] = useState("");
+    const [departmentFilter, setDepartmentFilter] = useState<number>();
+    const [personTypeFilter, setPersonTypeFilter] = useState<PersonType>();
+    const [hireDateRange, setHireDateRange] = useState<[Dayjs, Dayjs] | null>(null);
+
+    const filteredEmployees = useMemo(() => {
+        const term = searchText.trim().toLowerCase();
+
+        return employees.filter(employee => {
+            const matchesSearch = !term ||
+                employee.name?.toLowerCase().includes(term) ||
+                employee.nationalId?.toLowerCase().includes(term);
+
+            const matchesDepartment = !departmentFilter ||
+                employee.departmentId === departmentFilter;
+
+            const matchesPersonType = !personTypeFilter ||
+                employee.personType === personTypeFilter;
+
+            const matchesHireDate = !hireDateRange || (
+                employee.hireDate !== undefined &&
+                dayjs(employee.hireDate).valueOf() >= hireDateRange[0].startOf("day").valueOf() &&
+                dayjs(employee.hireDate).valueOf() <= hireDateRange[1].endOf("day").valueOf()
+            );
+
+            return matchesSearch && matchesDepartment && matchesPersonType && matchesHireDate;
+        });
+    }, [employees, searchText, departmentFilter, personTypeFilter, hireDateRange]);
+
+    const onClearFilters = () => {
+        setSearchText("");
+        setDepartmentFilter(undefined);
+        setPersonTypeFilter(undefined);
+        setHireDateRange(null);
+    };
 
     const columns: ColumnsType<EmployeeDto> = [
         {
@@ -254,10 +291,44 @@ export default function EmployeesPage() {
                 </Form>
             </Modal>
 
+            <DataFilters
+                searchValue={searchText}
+                onSearchChange={setSearchText}
+                searchPlaceholder="Buscar por nombre o cédula"
+                selects={[
+                    {
+                        key: "department",
+                        placeholder: "Filtrar por departamento",
+                        value: departmentFilter,
+                        onChange: setDepartmentFilter,
+                        options: departments.map(department => ({
+                            label: department.name,
+                            value: department.id!
+                        }))
+                    },
+                    {
+                        key: "personType",
+                        placeholder: "Filtrar por tipo de persona",
+                        value: personTypeFilter,
+                        onChange: setPersonTypeFilter,
+                        options: [
+                            { label: "Física", value: PersonType.INDIVIDUAL },
+                            { label: "Jurídica", value: PersonType.COMPANY }
+                        ]
+                    }
+                ]}
+                dateRange={{
+                    value: hireDateRange,
+                    onChange: setHireDateRange,
+                    placeholder: ["Ingreso desde", "Ingreso hasta"]
+                }}
+                onClear={onClearFilters}
+            />
+
             <Table
                 rowKey="id"
                 loading={isLoading}
-                dataSource={employees}
+                dataSource={filteredEmployees}
                 columns={columns}
                 className="mt-5"
                 scroll={{ x: true }}
