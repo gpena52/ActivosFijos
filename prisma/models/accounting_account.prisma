@@ -10,9 +10,6 @@ model AccountingAccount {
   purchaseAssetTypes      AssetType[] @relation("PurchaseAccount")
   depreciationAssetTypes  AssetType[] @relation("DepreciationAccount")
 
-  purchaseDepreciations      DepreciationRecord[] @relation("PurchaseDepreciation")
-  depreciationDepreciations  DepreciationRecord[] @relation("DepreciationDepreciation")
-
   journalEntries JournalEntry[]
 
   createdAt DateTime @default(now())

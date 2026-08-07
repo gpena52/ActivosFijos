@@ -44,5 +44,9 @@ export class FixedAssetService {
 
     updateValues(fixedAsset: FixedAssetDto) {
         fixedAsset.registrationDate = new Date(fixedAsset.registrationDate!);
+        fixedAsset.depreciationRecords?.forEach((depreciationRecord) => {
+            depreciationRecord.updatedAt = null;
+            depreciationRecord.processDate = new Date(depreciationRecord.processDate);
+        });
     }
 }
