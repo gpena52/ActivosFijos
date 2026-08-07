@@ -1,4 +1,5 @@
 import type { AssetType, Department, Prisma } from "@/generated/prisma/client";
+import { DepreciationRecordDto } from "./depreciation-record.dto";
 
 export interface FixedAssetDto {
     id?: number;
@@ -14,4 +15,5 @@ export interface FixedAssetDto {
     updatedAt: Date | null;
     department?: Department;
     assetType?: AssetType;
+    depreciationRecords?: DepreciationRecordDto[];
 }

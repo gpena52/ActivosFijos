@@ -1,6 +1,6 @@
 "use client"
 
-import { FixedAssetDto } from "@/dtos";
+import { DepreciationRecordDto, FixedAssetDto } from "@/dtos";
 import { Button, Col, DatePicker, Form, GetRef, Input, InputNumber, Modal, Row, Select, Skeleton, Space, Typography } from "antd";
 import { useMemo, useRef, useState } from "react";
 import useFixedAsset from "./useFixedAsset";
@@ -13,12 +13,6 @@ import DataFilters from "@/components/general/DataFilters";
 
 interface FixedAssetFormValues extends FixedAssetDto {
     dateValue?: dayjs.Dayjs;
-}
-
-interface DepreciationFormValues {
-    depreciationDate: Date;
-    purchaseValue: number;
-    accumulatedDepreciation: number;
 }
 
 const gutter = 16;
@@ -64,7 +58,7 @@ export default function FixedAsset() {
     const [depreciationModalOpen, setDepreciationModalOpen] = useState(false);
     const [isCalculatingDepreciation, setIsCalculatingDepreciation] = useState(false);
     const [currentFixedAsset, setCurrentFixedAsset] = useState<FixedAssetDto | null>(null);
-    const [accumulatedDepreciationValues, setAccumulatedDepreciationValues] = useState<DepreciationFormValues[]>([]);
+    const [accumulatedDepreciationValues, setAccumulatedDepreciationValues] = useState<DepreciationRecordDto[]>([]);
 
     const [searchText, setSearchText] = useState("");
     const [departmentFilter, setDepartmentFilter] = useState<number>();
@@ -102,10 +96,10 @@ export default function FixedAsset() {
         setRegistrationDateRange(null);
     };
 
-    const calculateAccumulatedDepreciationValues = async (fixedAsset: FixedAssetDto, signal: AbortSignal) => {
+    const calculateAccumulatedDepreciationValues = async (fixedAsset: FixedAssetDto, signal?: AbortSignal) => {
         setIsCalculatingDepreciation(true);
 
-        const calculatedValues: DepreciationFormValues[] = [];
+        const calculatedValues: DepreciationRecordDto[] = [];
 
         let purchaseValue = Number(fixedAsset.purchaseValue ?? 0);
         let depreciationValue = Number(fixedAsset.accumulatedDepreciation ?? 0);
@@ -118,15 +112,15 @@ export default function FixedAsset() {
             if (purchaseValue < currentValue) currentValue = purchaseValue;
 
             calculatedValues.push({
-                depreciationDate: new Date(currentDate),
-                purchaseValue: purchaseValue,
-                accumulatedDepreciation: Math.round(currentValue * 100) / 100
+                processDate: new Date(currentDate),
+                depreciatedAmount: purchaseValue,
+                accumulatedDepreciation: Math.round(currentValue * 100) / 100,
             });
 
             currentDate.setMonth(currentDate.getMonth() + 1);
 
             await new Promise(resolve => setTimeout(resolve, 0));
-            signal.throwIfAborted();
+            signal?.throwIfAborted();
         }
 
         setIsCalculatingDepreciation(false);
@@ -134,19 +128,19 @@ export default function FixedAsset() {
         return calculatedValues
     }
 
-    const accumulatedDepreciationColumns: ColumnsType<DepreciationFormValues> = [
+    const accumulatedDepreciationColumns: ColumnsType<DepreciationRecordDto> = [
         {
             title: "Fecha",
-            dataIndex: "depreciationDate",
-            key: "depreciationDate",
-            render: (depreciationDate) => {
-                return `${dayjs(depreciationDate).format("DD-MM-YYYY")}`
+            dataIndex: "processDate",
+            key: "processDate",
+            render: (processDate) => {
+                return `${dayjs(processDate).format("DD-MM-YYYY")}`
             }
         },
         {
             title: "Valor de Compra",
-            dataIndex: "purchaseValue",
-            key: "purchaseValue",
+            dataIndex: "depreciatedAmount",
+            key: "depreciatedAmount",
         },
         {
             title: "Valor de Depreciacion",
@@ -223,6 +217,7 @@ export default function FixedAsset() {
         setModalOpen(false);
         formValues.registrationDate = formValues.dateValue?.toDate();
         const { dateValue: undefined, ...values } = formValues;
+        values.depreciationRecords = await calculateAccumulatedDepreciationValues(values);
         (values.id) ? await update(values) : await create(values);
         clearForm();
     };
@@ -250,10 +245,9 @@ export default function FixedAsset() {
             setDepreciationModalOpen(true);
             setCurrentFixedAsset(fixedAsset);
             abortControllerRef.current = new AbortController();
-            setAccumulatedDepreciationValues(await calculateAccumulatedDepreciationValues(fixedAsset, abortControllerRef.current.signal));
+            setAccumulatedDepreciationValues(fixedAsset.depreciationRecords ?? []);
         } catch (err) {
             if (err instanceof DOMException && err.name === "AbortError") {
-                // Expected cancellation.
                 return;
             }
 
@@ -386,7 +380,7 @@ export default function FixedAsset() {
             >
                 <Table
                     ref={tableRef}
-                    rowKey="depreciationDate"
+                    rowKey="processDate"
                     className="mt-5"
                     columns={accumulatedDepreciationColumns}
                     dataSource={accumulatedDepreciationValues}

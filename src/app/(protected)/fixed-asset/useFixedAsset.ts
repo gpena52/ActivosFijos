@@ -91,7 +91,7 @@ export default function useFixedAsset() {
         if (!response.ok) {
             notify.error(
                 "Error",
-                response.message
+                response.errorMessage
             )
             return
         }

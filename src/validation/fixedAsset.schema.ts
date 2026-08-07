@@ -1,18 +1,6 @@
-import { Prisma } from "@/generated/prisma/client";
+import { prismaDecimalErrorMessage, prismaDecimalValidation } from "@/utils/prismaDecimalValidation";
 import { z } from "zod";
-
-const prismaDecimalValidation = (value: number) => {
-    try {
-        new Prisma.Decimal(value);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
-const prismaDecimalErrorMessage = {
-    message: "Invalid decimal"
-}
+import { createDepreciationRecordSchema } from "./depreciation-record.schema";
 
 export const createFixedAssetSchema = z.object({
     name: z.string(),
@@ -21,7 +9,8 @@ export const createFixedAssetSchema = z.object({
     assetTypeId: z.number(),
     registrationDate: z.date(),
     purchaseValue: z.number().refine(prismaDecimalValidation, prismaDecimalErrorMessage),
-    accumulatedDepreciation: z.number().refine(prismaDecimalValidation, prismaDecimalErrorMessage)
+    accumulatedDepreciation: z.number().refine(prismaDecimalValidation, prismaDecimalErrorMessage),
+    depreciationRecords: z.array(createDepreciationRecordSchema)
 })
 
 export const updateFixedAssetSchema = createFixedAssetSchema.extend({
