@@ -101,6 +101,10 @@ export class FixedAssetRepository {
     }
 
     async delete(id: number): Promise<FixedAssetDto> {
+        await prisma.depreciationRecord.deleteMany({
+            where: { fixedAssetId: id }
+        })
+
         return prisma.fixedAsset.update({
             where: { id },
             data: { status: false },

@@ -58,6 +58,11 @@ const routes: AppRoute[] = [
         icon: <BankOutlined />,
         label: "Activos Fijos",
     },
+    {
+        key: "/depreciation-send",
+        icon: <BankOutlined />,
+        label: "Envio de depreciaciones",
+    },
 ];
 
 export default function Sidebar({ collapsed, setHeaderTitle }: SidebarProps) {
