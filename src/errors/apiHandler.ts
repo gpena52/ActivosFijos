@@ -22,6 +22,8 @@ export function apiHandler<T>(handler: Handler<T>): Handler<T> {
                 );
             }
 
+            console.log(error)
+
             return NextResponse.json(
                 { message: "Internal Server Error" },
                 { status: 400 }

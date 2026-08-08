@@ -1,23 +1,61 @@
 "use client"
 
-import { AccountingAccountDto } from "@/dtos";
+import { AccountingAccountDto, AccountingServiceAccountDto } from "@/dtos";
 import { ErrorResponseDto } from "@/dtos/error-response.dto";
 import { fetcher } from "@/utils/fetcher";
 import { notify } from "@/utils/notification";
-import { notification } from "antd";
 import { useEffect, useState } from "react";
 
 const route = "/api/accounting-account"
+const accountingServiceAccountsList: AccountingServiceAccountDto[] = [
+    {
+        "id": 1,
+        "codigo": "101",
+        "nombre": "Caja General",
+        "permiteTransacciones": true,
+        "estado": "ACTIVO"
+    },
+    {
+        "id": 2,
+        "codigo": "201",
+        "nombre": "Cuentas por Pagar",
+        "permiteTransacciones": true,
+        "estado": "ACTIVO"
+    },
+    {
+        "id": 3,
+        "codigo": "301",
+        "nombre": "Capital Social",
+        "permiteTransacciones": true,
+        "estado": "ACTIVO"
+    },
+    {
+        "id": 4,
+        "codigo": "501",
+        "nombre": "Gasto de Nomina",
+        "permiteTransacciones": true,
+        "estado": "ACTIVO"
+    },
+    {
+        "id": 5,
+        "codigo": "202",
+        "nombre": "Nomina por Pagar",
+        "permiteTransacciones": true,
+        "estado": "ACTIVO"
+    }
+]
 
 export default function useAccountingAccount() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [accountingAccounts, setAccountingAccounts] = useState<AccountingAccountDto[]>([]);
+    const [accountingServiceAccounts, setAccountingServiceAccounts] = useState<AccountingServiceAccountDto[]>(accountingServiceAccountsList);
 
     useEffect(() => {
         (async () => {
             setIsLoading(true);
             setAccountingAccounts(await getAll());
+            // setAccountingServiceAccounts(await getAccountingServiceAccounts());
             setIsLoading(false)
         })()
     }, [])
@@ -30,6 +68,11 @@ export default function useAccountingAccount() {
     const getById = async (id: number) => {
         const accountingAccount = await fetcher<AccountingAccountDto>(`${route}/getById/${id}`);
         return accountingAccount.data;
+    }
+
+    const getAccountingServiceAccounts = async () => {
+        const accountingServiceAccounts = await fetcher<AccountingServiceAccountDto[]>(`https://sistema-contabilidad.onrender.com/api/cuentas`);
+        return accountingServiceAccounts.data;
     }
 
     const create = async (accountingAccount: AccountingAccountDto) => {
@@ -105,6 +148,7 @@ export default function useAccountingAccount() {
     return {
         isLoading,
         accountingAccounts,
+        accountingServiceAccounts,
         getById,
         create,
         update,

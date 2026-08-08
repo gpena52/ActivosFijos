@@ -18,7 +18,8 @@ const newAccountingAccount: AccountingAccountDto = {
     accountType: AccountType.ASSET,
     status: true,
     createdAt: new Date(),
-    updatedAt: null
+    updatedAt: null,
+    accountingServiceAccountId: null
 }
 
 export default function AccountingAccount() {
@@ -26,6 +27,7 @@ export default function AccountingAccount() {
     const {
         isLoading,
         accountingAccounts,
+        accountingServiceAccounts,
         getById,
         create,
         update,
@@ -159,6 +161,22 @@ export default function AccountingAccount() {
                                     label: accountTypeLabels[accountType],
                                     value: accountType,
                                 }))}
+                            />
+                        )}
+                    </Form.Item>
+
+                    <Form.Item label="Cuenta del Servicio de Contabilidad" name="accountingServiceAccountId" rules={[rules.required("Cuenta del Servicio de Contabilidad")]}>
+                        {isEditLoading ? (
+                            <Skeleton.Input active block />
+                        ) : (
+                            <Select
+                                placeholder="Seleccione una cuenta"
+                                options={accountingServiceAccounts
+                                    .filter(accountingServiceAccount => accountingServiceAccount.permiteTransacciones && accountingServiceAccount.estado == "ACTIVO")
+                                    .map((accountingServiceAccount) => ({
+                                        label: `${accountingServiceAccount.codigo} - ${accountingServiceAccount.nombre}`,
+                                        value: accountingServiceAccount.id,
+                                    }))}
                             />
                         )}
                     </Form.Item>

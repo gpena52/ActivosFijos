@@ -6,3 +6,4 @@ export * from "./employee.dto";
 export * from "./fixed-asset.dto";
 export * from "./journal-entry.dto";
 export * from "./user.dto";
+export * from "./accounting-service-account.dto";
