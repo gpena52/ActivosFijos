@@ -8,6 +8,7 @@ import {
     AppstoreOutlined,
     BankOutlined,
     UserOutlined,
+    SendOutlined,
 } from "@ant-design/icons";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -60,7 +61,7 @@ const routes: AppRoute[] = [
     },
     {
         key: "/depreciation-send",
-        icon: <BankOutlined />,
+        icon: <SendOutlined />,
         label: "Envio de depreciaciones",
     },
 ];

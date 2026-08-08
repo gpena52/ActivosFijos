@@ -7,6 +7,8 @@ model AccountingAccount {
 
   status        Boolean     @default(true)
 
+  accountingServiceAccountId Int?
+
   purchaseAssetTypes      AssetType[] @relation("PurchaseAccount")
   depreciationAssetTypes  AssetType[] @relation("DepreciationAccount")
 

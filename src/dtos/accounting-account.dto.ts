@@ -6,6 +6,7 @@ export interface AccountingAccountDto {
     accountName: string;
     accountType: AccountType;
     status: boolean;
+    accountingServiceAccountId: number | null;
     createdAt: Date;
     updatedAt: Date | null;
 }
