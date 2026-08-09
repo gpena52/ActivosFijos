@@ -21,6 +21,8 @@ export interface DateRangeFilterConfig {
     placeholder?: [string, string];
     format?: string;
     width?: number;
+    onOpen?: () => void;
+    onClear?: () => void;
 }
 
 interface DataFiltersProps {
@@ -84,6 +86,10 @@ export default function DataFilters({
                     <RangePicker
                         className="w-100"
                         value={dateRange.value}
+                        onClear={dateRange.onClear}
+                        onOpenChange={(open) => {
+                            if (open) dateRange.onOpen?.();
+                        }}
                         onChange={(dates) => {
                             if (dates && dates[0] && dates[1]) {
                                 dateRange.onChange([dates[0], dates[1]]);
