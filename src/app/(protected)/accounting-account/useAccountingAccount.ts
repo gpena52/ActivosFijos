@@ -54,8 +54,8 @@ export default function useAccountingAccount() {
     useEffect(() => {
         (async () => {
             setIsLoading(true);
+            setAccountingServiceAccounts(await getAccountingServiceAccounts());
             setAccountingAccounts(await getAll());
-            // setAccountingServiceAccounts(await getAccountingServiceAccounts());
             setIsLoading(false)
         })()
     }, [])
