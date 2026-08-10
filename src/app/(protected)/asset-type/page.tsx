@@ -1,7 +1,7 @@
 "use client"
 
 import { AssetTypeDto } from "@/dtos";
-import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Space, Typography } from "antd";
+import { Button, Col, Empty, Form, Input, Modal, Row, Select, Skeleton, Space, Typography } from "antd";
 import { useMemo, useState } from "react";
 import useAssetType from "./useAssetType";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -230,6 +230,9 @@ export default function AssetType() {
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}
+                locale={{
+                    emptyText: <Empty description="No hay tipos de activos" />
+                }}
             />
         </>
     )

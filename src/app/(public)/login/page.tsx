@@ -8,11 +8,14 @@ import useLogin from "./useLogin";
 import { LoginDto } from "@/dtos";
 import { useRouter } from "next/navigation";
 import { notify } from "@/utils/notification";
+import { useState } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const title = "Inicie Sesión";
 
 export default function Login() {
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { login } = useLogin();
 
     const router = useRouter();
@@ -20,12 +23,15 @@ export default function Login() {
     const [form] = Form.useForm();
 
     const onFinish = async (values: LoginDto) => {
+        setIsLoading(true);
         const result = await login(values);
+
         if (result?.ok) {
             router.push("/dashboard");
         } else {
             notify.error("Error", "Credenciales invalidas");
         }
+        setIsLoading(false);
     };
 
     return (
@@ -52,8 +58,8 @@ export default function Login() {
                         <Input.Password />
                     </Form.Item>
 
-                    <Button type="primary" htmlType="submit" block>
-                        Iniciar Sesión
+                    <Button type="primary" htmlType="submit" block disabled={isLoading}>
+                        Iniciar Sesión {isLoading && <LoadingOutlined spin />}
                     </Button>
                 </Form>
                 <Link href="/register" className="w-full">

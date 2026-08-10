@@ -1,7 +1,7 @@
 "use client"
 
 import { DepreciationRecordDto, FixedAssetDto } from "@/dtos";
-import { Button, Col, DatePicker, Form, GetRef, Input, InputNumber, Modal, Row, Select, Skeleton, Space, Typography } from "antd";
+import { Button, Col, DatePicker, Empty, Form, GetRef, Input, InputNumber, Modal, Row, Select, Skeleton, Space, Typography } from "antd";
 import { useMemo, useRef, useState } from "react";
 import useFixedAsset from "./useFixedAsset";
 import Table, { ColumnsType } from "antd/es/table";
@@ -387,6 +387,9 @@ export default function FixedAsset() {
                     pagination={false}
                     loading={isCalculatingDepreciation}
                     scroll={{ x: true, y: "55vh" }}
+                    locale={{
+                        emptyText: <Empty description="Cargando..." />
+                    }}
                 />
             </Modal>
 
@@ -432,6 +435,9 @@ export default function FixedAsset() {
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}
+                locale={{
+                    emptyText: <Empty description="No hay activos fijos" />
+                }}
             />
         </>
     )

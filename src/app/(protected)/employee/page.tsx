@@ -9,7 +9,8 @@ import {
     Skeleton,
     Space,
     DatePicker,
-    Typography
+    Typography,
+    Empty
 } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { useMemo, useState } from "react";
@@ -332,6 +333,9 @@ export default function EmployeesPage() {
                 columns={columns}
                 className="mt-5"
                 scroll={{ x: true }}
+                locale={{
+                    emptyText: <Empty description="No hay empleados" />
+                }}
             />
         </>
     );

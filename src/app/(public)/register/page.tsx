@@ -7,6 +7,7 @@ import { useState } from "react";
 import useRegister from "./useRegister";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const title = "Registre su usuario"
 
@@ -27,21 +28,18 @@ export default function Register() {
     const router = useRouter();
 
     const [form] = Form.useForm();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [validatePassword, setValidatePassword] = useState(false);
 
     const onFinish = async (values: FormRegisterDto) => {
+        setIsLoading(true);
         await createAndLogin({
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
             password: values.password
         })
-    };
-
-    const clearForm = () => {
-        form.resetFields();
-        form.setFieldsValue({});
-        setValidatePassword(false);
+        setIsLoading(false);
     };
 
     return (
@@ -94,8 +92,8 @@ export default function Register() {
                         <Input.Password />
                     </Form.Item>
 
-                    <Button onClick={() => setValidatePassword(true)} type="primary" htmlType="submit" block>
-                        Registrarse
+                    <Button onClick={() => setValidatePassword(true)} type="primary" htmlType="submit" block disabled={isLoading}>
+                        Registrarse {isLoading && <LoadingOutlined spin />}
                     </Button>
                 </Form>
                 <Link href="/login" className="w-full">
