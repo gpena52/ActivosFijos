@@ -69,8 +69,8 @@ export default function DepreciationSend() {
 
     const onSearch = async () => {
         setShowLoading(true);
-        setDisabledSend(false);
         setDepreciationRecords(await getAllByDateRange(registrationDateRange![0].toDate(), registrationDateRange![1].toDate()));
+        setDisabledSend(false);
     }
 
     const onSend = async () => {
