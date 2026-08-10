@@ -10,6 +10,8 @@ model DepreciationRecord {
 
   accumulatedDepreciation Decimal @db.Decimal(18,2)
 
+  journalEntryNumberId Int?
+
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
 }

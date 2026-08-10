@@ -7,55 +7,18 @@ import { notify } from "@/utils/notification";
 import { useEffect, useState } from "react";
 
 const route = "/api/accounting-account"
-const accountingServiceAccountsList: AccountingServiceAccountDto[] = [
-    {
-        "id": 1,
-        "codigo": "101",
-        "nombre": "Caja General",
-        "permiteTransacciones": true,
-        "estado": "ACTIVO"
-    },
-    {
-        "id": 2,
-        "codigo": "201",
-        "nombre": "Cuentas por Pagar",
-        "permiteTransacciones": true,
-        "estado": "ACTIVO"
-    },
-    {
-        "id": 3,
-        "codigo": "301",
-        "nombre": "Capital Social",
-        "permiteTransacciones": true,
-        "estado": "ACTIVO"
-    },
-    {
-        "id": 4,
-        "codigo": "501",
-        "nombre": "Gasto de Nomina",
-        "permiteTransacciones": true,
-        "estado": "ACTIVO"
-    },
-    {
-        "id": 5,
-        "codigo": "202",
-        "nombre": "Nomina por Pagar",
-        "permiteTransacciones": true,
-        "estado": "ACTIVO"
-    }
-]
 
 export default function useAccountingAccount() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [accountingAccounts, setAccountingAccounts] = useState<AccountingAccountDto[]>([]);
-    const [accountingServiceAccounts, setAccountingServiceAccounts] = useState<AccountingServiceAccountDto[]>(accountingServiceAccountsList);
+    const [accountingServiceAccounts, setAccountingServiceAccounts] = useState<AccountingServiceAccountDto[]>([]);
 
     useEffect(() => {
         (async () => {
             setIsLoading(true);
+            setAccountingServiceAccounts(await getAccountingServiceAccounts());
             setAccountingAccounts(await getAll());
-            // setAccountingServiceAccounts(await getAccountingServiceAccounts());
             setIsLoading(false)
         })()
     }, [])

@@ -1,3 +1,5 @@
+import { FixedAssetDto } from "./fixed-asset.dto";
+
 export interface DepreciationRecordDto {
     id?: number;
     fixedAssetId?: number;
@@ -6,4 +8,6 @@ export interface DepreciationRecordDto {
     accumulatedDepreciation: number;
     createdAt?: Date;
     updatedAt?: Date | null;
+
+    fixedAsset?: FixedAssetDto;
 }

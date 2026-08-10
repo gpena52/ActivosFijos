@@ -1,4 +1,4 @@
-import { AccountingAccount } from "@/generated/prisma/client";
+import { AccountingAccountDto } from "./accounting-account.dto";
 
 export interface AssetTypeDto {
     id?: number;
@@ -9,6 +9,6 @@ export interface AssetTypeDto {
     status: boolean;
     createdAt: Date;
     updatedAt: Date | null;
-    purchaseAccount?: AccountingAccount;
-    depreciationAccount?: AccountingAccount;
+    purchaseAccount?: AccountingAccountDto;
+    depreciationAccount?: AccountingAccountDto;
 }

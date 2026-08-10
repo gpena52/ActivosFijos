@@ -60,7 +60,7 @@ const routes: AppRoute[] = [
         label: "Activos Fijos",
     },
     {
-        key: "/depreciation-send",
+        key: "/depreciation-record",
         icon: <SendOutlined />,
         label: "Envio de depreciaciones",
     },

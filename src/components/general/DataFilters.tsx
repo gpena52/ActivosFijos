@@ -21,15 +21,18 @@ export interface DateRangeFilterConfig {
     placeholder?: [string, string];
     format?: string;
     width?: number;
+    onOpen?: () => void;
+    onClear?: () => void;
 }
 
 interface DataFiltersProps {
-    searchValue: string;
-    onSearchChange: (value: string) => void;
+    searchValue?: string;
+    onSearchChange?: (value: string) => void;
     searchPlaceholder?: string;
     selects?: SelectFilterConfig[];
     dateRange?: DateRangeFilterConfig;
     onClear: () => void;
+    children?: React.ReactNode;
 }
 
 /**
@@ -44,7 +47,8 @@ export default function DataFilters({
     searchPlaceholder = "Buscar...",
     selects = [],
     dateRange,
-    onClear
+    onClear,
+    children
 }: DataFiltersProps) {
 
     const hasActiveFilters =
@@ -54,15 +58,15 @@ export default function DataFilters({
 
     return (
         <Row gutter={[16, 12]} className="mb-3 mt-3" align="middle">
-            <Col xs={24} md={8} lg={6}>
+            {onSearchChange && <Col xs={24} md={8} lg={6}>
                 <Input
                     allowClear
                     prefix={<SearchOutlined />}
                     placeholder={searchPlaceholder}
                     value={searchValue}
-                    onChange={(e) => onSearchChange(e.target.value)}
+                    onChange={(e) => onSearchChange?.(e.target.value)}
                 />
-            </Col>
+            </Col>}
 
             {selects.map((select) => (
                 <Col xs={24} md={8} lg={select.width ?? 5} key={select.key}>
@@ -82,6 +86,10 @@ export default function DataFilters({
                     <RangePicker
                         className="w-100"
                         value={dateRange.value}
+                        onClear={dateRange.onClear}
+                        onOpenChange={(open) => {
+                            if (open) dateRange.onOpen?.();
+                        }}
                         onChange={(dates) => {
                             if (dates && dates[0] && dates[1]) {
                                 dateRange.onChange([dates[0], dates[1]]);
@@ -102,6 +110,7 @@ export default function DataFilters({
                     </Button>
                 </Col>
             )}
+            {children && <Col>{children}</Col>}
         </Row>
     );
 }
