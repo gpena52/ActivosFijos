@@ -1,20 +1,29 @@
 "use client"
 
 import DataFilters from "@/components/general/DataFilters";
-import { DepreciationRecordDto, FixedAssetDto } from "@/dtos";
+import { DepreciationRecordDto, FixedAssetDto, JournalEntryDto } from "@/dtos";
 import { SearchOutlined, SendOutlined } from "@ant-design/icons";
 import { Button, Col, Empty, Flex, Row, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import useDepreciationSend from "./useDepreciationSend";
+import { JournalEntryRequest } from "@/dtos/journal-entry-request.dto";
 
 export default function DepreciationSend() {
 
-    const { isLoading, areAccountsLoading, accountingServiceAccounts, getAllByDateRange } = useDepreciationSend();
+    const {
+        isLoading,
+        areAccountsLoading,
+        accountingServiceAccounts,
+        getAllByDateRange,
+        sendToAccounting,
+        update
+    } = useDepreciationSend();
 
-    const [disabledSearch, setDisabledSearch] = useState(true);
+    const [showLoading, setShowLoading] = useState(false);
     const [disabledSend, setDisabledSend] = useState(true);
+    const [disabledSearch, setDisabledSearch] = useState(true);
 
     const [depreciationRecords, setDepreciationRecords] = useState<DepreciationRecordDto[]>([]);
 
@@ -22,7 +31,7 @@ export default function DepreciationSend() {
 
     const columns: ColumnsType<DepreciationRecordDto> = [
         {
-            title: "Cuenta debito",
+            title: "Cuenta Debito",
             dataIndex: "debitAccountName",
             key: "debitAccountName",
             render: (_: any, depreciationRecord: DepreciationRecordDto) => {
@@ -31,7 +40,7 @@ export default function DepreciationSend() {
             }
         },
         {
-            title: "Cuenta credito",
+            title: "Cuenta Credito",
             dataIndex: "creditAccountName",
             key: "creditAccountName",
             render: (_: any, depreciationRecord: DepreciationRecordDto) => {
@@ -58,15 +67,24 @@ export default function DepreciationSend() {
         }
     ];
 
+    const onSearch = async () => {
+        setShowLoading(true);
+        setDisabledSend(false);
+        setDepreciationRecords(await getAllByDateRange(registrationDateRange![0].toDate(), registrationDateRange![1].toDate()));
+    }
+
+    const onSend = async () => {
+        setDisabledSearch(true);
+        setDisabledSend(true);
+        const responses: JournalEntryDto[] = await sendToAccounting(depreciationRecords);
+        await update(responses);
+        onClearFilter();
+    }
+
     const onChange = (value: [Dayjs, Dayjs] | null) => {
         setRegistrationDateRange(value);
         setDisabledSearch(false);
         setDisabledSend(true);
-    }
-
-    const onSearch = async () => {
-        setDisabledSend(false);
-        setDepreciationRecords(await getAllByDateRange(registrationDateRange![0].toDate(), registrationDateRange![1].toDate()));
     }
 
     const onClearFilter = () => {
@@ -96,7 +114,7 @@ export default function DepreciationSend() {
                     </Col>
 
                     <Col>
-                        <Button icon={<SendOutlined />} className="mb-3 mt-3" onClick={() => { }} disabled={disabledSend}>
+                        <Button icon={<SendOutlined />} className="mb-3 mt-3" onClick={onSend} disabled={disabledSend}>
                             Enviar
                         </Button>
                     </Col>
@@ -107,9 +125,9 @@ export default function DepreciationSend() {
                 rowKey="id"
                 className="mt-5"
                 columns={columns}
-                dataSource={depreciationRecords}
+                dataSource={areAccountsLoading ? [] : depreciationRecords}
                 pagination={{ pageSize: 10 }}
-                loading={isLoading ? isLoading || areAccountsLoading : false}
+                loading={isLoading ? isLoading : showLoading && areAccountsLoading}
                 scroll={{ x: true }}
                 locale={{
                     emptyText: <Empty description="No hay registros" />

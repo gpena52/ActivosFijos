@@ -1,4 +1,4 @@
-import { DepreciationRecordDto } from "@/dtos";
+import { DepreciationRecordDto, JournalEntryDto } from "@/dtos";
 import { prisma } from "@/lib/prisma";
 
 export class DepreciationRecordRepository {
@@ -17,6 +17,7 @@ export class DepreciationRecordRepository {
                 }
             },
             where: {
+                journalEntryNumberId: null,
                 processDate: {
                     gte: startDate,
                     lte: endDate
@@ -37,5 +38,22 @@ export class DepreciationRecordRepository {
         });
 
         return depreciationRecordsDto;
+    }
+
+    async update(request: JournalEntryDto[]) {
+        return await prisma.$transaction(
+            request.map((item) =>
+                prisma.depreciationRecord.update({
+                    where: {
+                        id: item.depreciationId!,
+                    },
+                    data: {
+                        updatedAt: new Date(),
+                        journalEntryNumberId: item.numeroAsiento
+                    },
+                })
+            )
+        );
+
     }
 }
