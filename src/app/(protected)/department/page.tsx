@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Form, Input, Modal, Skeleton, Space, Typography } from "antd";
+import { Button, Empty, Form, Input, Modal, Skeleton, Space, Typography } from "antd";
 import useDeparment from "./useDepartment";
 import Table, { ColumnsType } from "antd/es/table";
 import { DepartmentDto } from "@/dtos";
@@ -154,6 +154,9 @@ export default function Deparment() {
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}
+                locale={{
+                    emptyText: <Empty description="No hay departamentos" />
+                }}
             />
         </>
     );

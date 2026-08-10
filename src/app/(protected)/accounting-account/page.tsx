@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Form, Input, Modal, Select, Skeleton, Space, Typography } from "antd";
+import { Button, Empty, Form, Input, Modal, Select, Skeleton, Space, Typography } from "antd";
 import useAccountingAccount from "./useAccountingAccount";
 import Table, { ColumnsType } from "antd/es/table";
 import { AccountingAccountDto } from "@/dtos";
@@ -210,6 +210,9 @@ export default function AccountingAccount() {
                 pagination={{ pageSize: 10 }}
                 loading={isLoading}
                 scroll={{ x: true }}
+                locale={{
+                    emptyText: <Empty description="No hay cuentas" />
+                }}
             />
         </>
     );

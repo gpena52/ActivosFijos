@@ -130,7 +130,7 @@ export default function DepreciationSend() {
                 loading={isLoading ? isLoading : showLoading && areAccountsLoading}
                 scroll={{ x: true }}
                 locale={{
-                    emptyText: <Empty description="No hay registros" />
+                    emptyText: <Empty description="No hay depreciaciones" />
                 }}
             />
         </>
