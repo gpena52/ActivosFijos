@@ -10,7 +10,11 @@ export class FixedAssetRepository {
             include: {
                 department: true,
                 assetType: true,
-                depreciationRecords: true
+                depreciationRecords: {
+                    orderBy: {
+                        id: "asc"
+                    }
+                }
             },
             orderBy: {
                 id: "desc"

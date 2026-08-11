@@ -22,6 +22,9 @@ export class DepreciationRecordRepository {
                     gte: startDate,
                     lte: endDate
                 }
+            },
+            orderBy: {
+                processDate: "asc"
             }
         });
 
