@@ -15,6 +15,7 @@ export default function Providers({
     children: React.ReactNode;
 }) {
 
+    const [isDark, setIsDark] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
@@ -22,9 +23,20 @@ export default function Providers({
             setIsVisible(document.visibilityState === 'visible');
         };
 
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+        setIsDark(media.matches);
+
+        const listener = (event: MediaQueryListEvent) => {
+            setIsDark(event.matches);
+        };
+
+        media.addEventListener('change', listener);
+
         document.addEventListener('visibilitychange', handleVisibility);
 
         return () => {
+            media.removeEventListener('change', listener);
             document.removeEventListener('visibilitychange', handleVisibility);
         };
     }, []);
@@ -36,10 +48,17 @@ export default function Providers({
         >
             <ConfigProvider
                 theme={{
-                    algorithm: theme.defaultAlgorithm,
+                    algorithm: /*isDark ? theme.darkAlgorithm :*/ theme.defaultAlgorithm,
                     token: {
                         colorPrimary: "#1677ff",
                         borderRadius: 8,
+                    },
+                    components: {
+                        Button: {
+                            primaryShadow: "none",
+                            defaultShadow: "none",
+                            dangerShadow: "none",
+                        },
                     },
                 }}
             >

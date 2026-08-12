@@ -32,7 +32,7 @@ export default function ProtectedLayout({
                     style={{
                         padding: 24,
                         margin: 24,
-                        background: "#fff",
+                        background: "#fff", // #202020ff
                         borderRadius: 8,
                     }}
                 >

@@ -1,10 +1,10 @@
 "use client";
 
 import { LoggedDto } from "@/dtos";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Layout, Space, Avatar, Button, Typography, Dropdown, MenuProps } from "antd";
-import { Session } from "next-auth";
+import { MenuFoldOutlined, MenuUnfoldOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
+import { Layout, Space, Avatar, Button, Typography, Dropdown, MenuProps, Switch, Flex } from "antd";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 
 const { Header } = Layout;
 
@@ -20,37 +20,49 @@ const items: MenuProps["items"] = [
 ];
 
 export default function AppHeader({ collapsed, user, headerTitle, setCollapsed }: HeaderProps) {
+
+    const [dark, setDark] = useState(false);
+
     return (
         <Header
             style={{
                 background: "#fff",
                 padding: "0 24px",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
+                height: "auto",
             }}
         >
-            <Button
-                type="text"
-                icon={
-                    collapsed
-                        ? <MenuUnfoldOutlined />
-                        : <MenuFoldOutlined />
-                }
-                onClick={() => setCollapsed(!collapsed)}
-            />
+            <Flex wrap="wrap" align="center" justify="center" style={{ width: "100%" }}>
+                <Button
+                    type="text"
+                    icon={
+                        collapsed
+                            ? <MenuUnfoldOutlined />
+                            : <MenuFoldOutlined />
+                    }
+                    onClick={() => setCollapsed(!collapsed)}
+                />
 
-            <h3 style={{ margin: 0 }}>{headerTitle}</h3>
+                <h3 style={{ margin: 0, flex: 1, textAlign: "center" }}>{headerTitle}</h3>
 
-            <Dropdown
-                menu={{ items }}
-                trigger={["click"]}
-            >
-                <Space className="pointer">
-                    <Avatar>{user.firstName.substring(0, 1).toUpperCase() + user.lastName.substring(0, 1).toUpperCase()}</Avatar>
-                    <Typography.Text>{user.firstName} {user.lastName}</Typography.Text>
+                <Space wrap style={{ justifyContent: "center" }}>
+                    <Switch
+                        checked={dark}
+                        onChange={setDark}
+                        checkedChildren={<MoonOutlined />}
+                        unCheckedChildren={<SunOutlined />}
+                    />
+
+                    <Dropdown
+                        menu={{ items }}
+                        trigger={["click"]}
+                    >
+                        <Space className="pointer">
+                            <Avatar>{user.firstName.substring(0, 1).toUpperCase() + user.lastName.substring(0, 1).toUpperCase()}</Avatar>
+                            <Typography.Text>{user.firstName} {user.lastName}</Typography.Text>
+                        </Space>
+                    </Dropdown>
                 </Space>
-            </Dropdown>
+            </Flex>
         </Header>
     );
 }
