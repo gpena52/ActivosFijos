@@ -203,20 +203,14 @@ export default function AssetType() {
                         placeholder: "Filtrar por cuenta de compra",
                         value: purchaseAccountFilter,
                         onChange: setPurchaseAccountFilter,
-                        options: accountingAccounts.map(account => ({
-                            label: `${account.accountNumber} - ${account.accountName}`,
-                            value: account.id!
-                        }))
+                        options: getAccounts(AccountType.ASSET)
                     },
                     {
                         key: "depreciationAccount",
                         placeholder: "Filtrar por cuenta de depreciación",
                         value: depreciationAccountFilter,
                         onChange: setDepreciationAccountFilter,
-                        options: accountingAccounts.map(account => ({
-                            label: `${account.accountNumber} - ${account.accountName}`,
-                            value: account.id!
-                        }))
+                        options: getAccounts(AccountType.CONTRA_ASSET)
                     }
                 ]}
                 onClear={onClearFilters}
