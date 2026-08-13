@@ -114,7 +114,7 @@ export default function DepreciationSend() {
                     </Col>
 
                     <Col>
-                        <Button icon={<SendOutlined />} className="mb-3 mt-3" onClick={onSend} disabled={disabledSend}>
+                        <Button icon={<SendOutlined />} className="mb-3 mt-3" onClick={onSend} disabled={disabledSend ? disabledSend : areAccountsLoading}>
                             Enviar
                         </Button>
                     </Col>

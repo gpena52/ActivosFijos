@@ -1,10 +1,11 @@
 "use client";
 
+import { DarkModeContext } from "@/contexts/darkModeContext";
 import { LoggedDto } from "@/dtos";
 import { MenuFoldOutlined, MenuUnfoldOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import { Layout, Space, Avatar, Button, Typography, Dropdown, MenuProps, Switch, Flex } from "antd";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 const { Header } = Layout;
 
@@ -21,15 +22,15 @@ const items: MenuProps["items"] = [
 
 export default function AppHeader({ collapsed, user, headerTitle, setCollapsed }: HeaderProps) {
 
-    const [dark, setDark] = useState(false);
+    const { isDark, toggleDarkMode } = useContext(DarkModeContext)!;
 
     return (
         <Header
             style={{
-                background: "#fff",
                 padding: "0 24px",
                 height: "auto",
             }}
+            className={isDark ? "bg-dark" : "bg-light"}
         >
             <Flex wrap="wrap" align="center" justify="center" style={{ width: "100%" }}>
                 <Button
@@ -46,8 +47,8 @@ export default function AppHeader({ collapsed, user, headerTitle, setCollapsed }
 
                 <Space wrap style={{ justifyContent: "center" }}>
                     <Switch
-                        checked={dark}
-                        onChange={setDark}
+                        checked={isDark}
+                        onChange={toggleDarkMode}
                         checkedChildren={<MoonOutlined />}
                         unCheckedChildren={<SunOutlined />}
                     />
