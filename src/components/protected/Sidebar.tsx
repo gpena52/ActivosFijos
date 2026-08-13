@@ -78,7 +78,7 @@ export default function Sidebar({ collapsed, setHeaderTitle }: SidebarProps) {
     return (
         <Sider
             width={240}
-            collapsedWidth={110}
+            collapsedWidth={0}
             collapsed={collapsed}
             trigger={null}
         >
