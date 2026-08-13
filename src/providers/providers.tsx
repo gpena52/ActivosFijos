@@ -24,20 +24,9 @@ export default function Providers({
             setIsVisible(document.visibilityState === 'visible');
         };
 
-        const media = window.matchMedia('(prefers-color-scheme: dark)');
-
-        toggleDarkMode(media.matches);
-
-        const listener = (event: MediaQueryListEvent) => {
-            toggleDarkMode(event.matches);
-        };
-
-        media.addEventListener('change', listener);
-
         document.addEventListener('visibilitychange', handleVisibility);
 
         return () => {
-            media.removeEventListener('change', listener);
             document.removeEventListener('visibilitychange', handleVisibility);
         };
     }, []);

@@ -1,6 +1,6 @@
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "../styles/globals.scss"
-import Providers from "./providers";
+import Providers from "../../providers/providers";
 import ProtectedLayout from "@/components/protected/ProtectedLayout";
 import { App as AntdApp } from "antd";
 import { NotificationProvider } from "@/components/NotificationProvider";
@@ -21,19 +21,6 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="es" className={poppins.className}>
-      <body>
-        <AntdRegistry>
-          <DarkModeProvider>
-            <Providers>
-              <AntdApp>
-                <NotificationProvider />
-                <ProtectedLayout user={session!.user as LoggedDto}>{children}</ProtectedLayout>
-              </AntdApp>
-            </Providers>
-          </DarkModeProvider>
-        </AntdRegistry>
-      </body>
-    </html>
+    <ProtectedLayout user={session!.user as LoggedDto}>{children}</ProtectedLayout>
   );
 }

@@ -1,5 +1,5 @@
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import Providers from "../(protected)/providers";
+import Providers from "../../providers/providers";
 import { NotificationProvider } from "@/components/NotificationProvider";
 import { App as AntdApp } from "antd";
 import { poppins } from "@/constants/poppins";
@@ -14,19 +14,6 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="es" className={poppins.className}>
-            <body>
-                <AntdRegistry>
-                    <DarkModeProvider>
-                        <Providers>
-                            <AntdApp>
-                                <NotificationProvider />
-                                <PublicLayout>{children}</PublicLayout>
-                            </AntdApp>
-                        </Providers>
-                    </DarkModeProvider>
-                </AntdRegistry>
-            </body>
-        </html>
+        <PublicLayout>{children}</PublicLayout>
     );
 }
