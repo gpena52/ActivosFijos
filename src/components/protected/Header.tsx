@@ -27,10 +27,10 @@ export default function AppHeader({ collapsed, user, headerTitle, setCollapsed }
     return (
         <Header
             style={{
-                background: "#fff",
                 padding: "0 24px",
                 height: "auto",
             }}
+            className={isDark ? "bg-dark" : "bg-light"}
         >
             <Flex wrap="wrap" align="center" justify="center" style={{ width: "100%" }}>
                 <Button

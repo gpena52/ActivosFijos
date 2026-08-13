@@ -4,9 +4,10 @@ import { Layout } from "antd";
 import Sidebar from "./Sidebar";
 import AppHeader from "./Header";
 import AppFooter from "./Footer";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoggedDto } from "@/dtos";
 import AuthGuard from "@/guards/AuthGuard";
+import { DarkModeContext } from "@/contexts/darkModeContext";
 
 const { Content } = Layout;
 
@@ -20,6 +21,7 @@ export default function ProtectedLayout({
     const [collapsed, setCollapsed] = useState(false);
     const [headerTitle, setHeaderTitle] = useState("");
 
+    const { isDark } = useContext(DarkModeContext)!;
 
     return (
         <Layout style={{ minHeight: "100vh" }} hasSider>
@@ -32,9 +34,9 @@ export default function ProtectedLayout({
                     style={{
                         padding: 24,
                         margin: 24,
-                        background: "#fff", // #202020ff
                         borderRadius: 8,
                     }}
+                    className={isDark ? "bg-dark" : "bg-light"}
                 >
                     <AuthGuard />
                     {children}
