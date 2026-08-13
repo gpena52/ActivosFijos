@@ -5,7 +5,7 @@ import { App as AntdApp } from "antd";
 import { poppins } from "@/constants/poppins";
 import "../styles/globals.scss"
 import PublicLayout from "@/components/public/PublicLayout";
-import { notRequireAuth } from "@/utils/auth";
+import { DarkModeProvider } from "@/providers/darkModeProvider";
 export { metadata } from "@/constants/metadata";
 
 export default async function RootLayout({
@@ -17,12 +17,14 @@ export default async function RootLayout({
         <html lang="es" className={poppins.className}>
             <body>
                 <AntdRegistry>
-                    <Providers>
-                        <AntdApp>
-                            <NotificationProvider />
-                            <PublicLayout>{children}</PublicLayout>
-                        </AntdApp>
-                    </Providers>
+                    <DarkModeProvider>
+                        <Providers>
+                            <AntdApp>
+                                <NotificationProvider />
+                                <PublicLayout>{children}</PublicLayout>
+                            </AntdApp>
+                        </Providers>
+                    </DarkModeProvider>
                 </AntdRegistry>
             </body>
         </html>

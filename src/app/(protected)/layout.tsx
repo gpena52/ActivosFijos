@@ -9,6 +9,8 @@ import { requireAuth } from "@/utils/auth";
 import { LoggedDto } from "@/dtos";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth/config";
+import { DarkModeContext } from "@/contexts/darkModeContext";
+import { DarkModeProvider } from "@/providers/darkModeProvider";
 export { metadata } from "@/constants/metadata";
 
 export default async function RootLayout({
@@ -22,12 +24,14 @@ export default async function RootLayout({
     <html lang="es" className={poppins.className}>
       <body>
         <AntdRegistry>
-          <Providers>
-            <AntdApp>
-              <NotificationProvider />
-              <ProtectedLayout user={session!.user as LoggedDto}>{children}</ProtectedLayout>
-            </AntdApp>
-          </Providers>
+          <DarkModeProvider>
+            <Providers>
+              <AntdApp>
+                <NotificationProvider />
+                <ProtectedLayout user={session!.user as LoggedDto}>{children}</ProtectedLayout>
+              </AntdApp>
+            </Providers>
+          </DarkModeProvider>
         </AntdRegistry>
       </body>
     </html>

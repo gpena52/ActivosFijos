@@ -1,9 +1,10 @@
 "use client";
 
 import AntdApp from "@/components/general/antd";
+import { DarkModeContext } from "@/contexts/darkModeContext";
 import { App, ConfigProvider, theme } from "antd";
 import { SessionProvider } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const seconds = 60;
 const refreshMinutes = Number(process.env.NEXT_PUBLIC_EXPIRE_MINUTES);
@@ -15,7 +16,7 @@ export default function Providers({
     children: React.ReactNode;
 }) {
 
-    const [isDark, setIsDark] = useState(false);
+    const { isDark, toggleDarkMode } = useContext(DarkModeContext)!;
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
@@ -25,10 +26,10 @@ export default function Providers({
 
         const media = window.matchMedia('(prefers-color-scheme: dark)');
 
-        setIsDark(media.matches);
+        toggleDarkMode(media.matches);
 
         const listener = (event: MediaQueryListEvent) => {
-            setIsDark(event.matches);
+            toggleDarkMode(event.matches);
         };
 
         media.addEventListener('change', listener);
@@ -48,7 +49,7 @@ export default function Providers({
         >
             <ConfigProvider
                 theme={{
-                    algorithm: /*isDark ? theme.darkAlgorithm :*/ theme.defaultAlgorithm,
+                    algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
                     token: {
                         colorPrimary: "#1677ff",
                         borderRadius: 8,
