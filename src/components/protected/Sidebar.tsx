@@ -1,6 +1,6 @@
 "use client";
 
-import { Layout, Menu } from "antd";
+import { Grid, Layout, Menu } from "antd";
 import {
     DashboardOutlined,
     ApartmentOutlined,
@@ -66,9 +66,14 @@ const routes: AppRoute[] = [
     },
 ];
 
+const { useBreakpoint } = Grid;
+
 export default function Sidebar({ collapsed, setHeaderTitle }: SidebarProps) {
+    const screens = useBreakpoint();
     const router = useRouter();
     const pathname = usePathname();
+
+    const isMobile = !screens.md;
 
     useEffect(() => {
         let route = routes.find(route => route.key === pathname)
@@ -78,7 +83,7 @@ export default function Sidebar({ collapsed, setHeaderTitle }: SidebarProps) {
     return (
         <Sider
             width={240}
-            collapsedWidth={0}
+            collapsedWidth={isMobile ? 0 : 110}
             collapsed={collapsed}
             trigger={null}
         >
