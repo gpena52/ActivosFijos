@@ -121,8 +121,6 @@ export default function DepreciationSend() {
                 </Row>
             </DataFilters>
 
-            <p>{String(disabledSend)} {String(areAccountsLoading)}</p>
-
             <Table
                 rowKey="id"
                 className="mt-5"
